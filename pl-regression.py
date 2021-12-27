@@ -48,9 +48,10 @@ class LogisticRegression(LightningModule):
 
     def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Dict[str, Tensor]:
         x, y = batch
-
-        # flatten any input
+        print('Before', x.shape)
+        # flatten any input 
         x = x.view(x.size(0), -1)
+        print('After' ,x.shape)
 
         y_hat = self.linear(x)
 
@@ -112,7 +113,6 @@ class LogisticRegression(LightningModule):
         parser.add_argument("--num_classes", type=int, default=None)
         parser.add_argument("--bias", default="store_true")
         parser.add_argument("--batch_size", type=int, default=16)
-        parser.add_argument("--max_epochs", type=int, default=16)
         return parser
 
 
@@ -148,7 +148,6 @@ def cli_main() -> None:
     trainer = Trainer.from_argparse_args(args)
     print(type(loaders.train_dataloader()))
     import sys
-    sys.exit(1)
     trainer.fit(model, train_dataloader=loaders.train_dataloader(), val_dataloaders=loaders.val_dataloader())
 
 
