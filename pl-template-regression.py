@@ -12,6 +12,7 @@ from torch.nn.functional import softmax
 from torch.optim import Adam
 from torch.optim.optimizer import Optimizer
 import matplotlib.pyplot as plt
+
 class SequentialNet(LightningModule):
     @classmethod
     def init_weights(cls, m):
@@ -34,14 +35,13 @@ class SequentialNet(LightningModule):
 
 
     def forward(self, x: Tensor) -> Tensor:
-        print('input')
-        print(x)
+        x = x.view(x.size(0), -1)
+
         return self.net(x)
     
     def training_step(self, batch: Tuple[Tensor, Tensor]) -> Dict[str, Tensor]:
         x, y = batch
         x = x.view(x.size(0), -1)
-
         y_hat = self.net(x)
         loss = self.loss_fn(y_hat, y)
         loss/= x.size(0)
@@ -59,7 +59,8 @@ class SequentialNet(LightningModule):
         return {"val_loss": loss}
 
     def configure_optimizers(self) -> Optimizer:
-        return self.optimizer(self.parameters(), lr=self.hparams.learning_rate)
+        # return self.optimizer(self.parameters(), lr=self.hparams.learning_rate)
+        return self.optimizer(self.parameters(), lr=0.01)
 
 class CustomedDataset(Dataset):
     """Face Landmarks dataset."""
@@ -70,13 +71,13 @@ class CustomedDataset(Dataset):
         self.time = np.arange(1, T + 1)
         # self.x = torch.sin(0.01 * self.time) + torch.normal(0, 0.2, (T,))
         self.x = np.sin(0.01 * self.time) + np.random.normal(0, 0.2, (T,))
-        tau = 4
+        self.tau = 4
 
         # self.features = torch.zeros((T - tau, tau))
-        self.features = np.zeros((T - tau, tau))
-        for i in range(tau):
-            self.features[:, i] = self.x[i:T - tau + i]
-        self.labels = self.x[tau:].reshape((-1, 1))
+        self.features = np.zeros((T - self.tau, self.tau))
+        for i in range(self.tau):
+            self.features[:, i] = self.x[i:T - self.tau + i]
+        self.labels = self.x[self.tau:].reshape((-1, 1))
     def __len__(self):
         return len(self.labels)
     def __getitem__(self, i):
@@ -95,13 +96,17 @@ def cli_main():
     args = parser.parse_args()
     model = SequentialNet(max_steps=10)
     train_dataset = CustomedDataset()
-    train_dataloader=DataLoader(train_dataset, collate_fn=CustomedDataset.collate_fn)
+    train_dataloader=DataLoader(train_dataset, collate_fn=CustomedDataset.collate_fn, batch_size = 16)
     # train
     print('=========================== args ==============')
     trainer = Trainer.from_argparse_args(args)
     trainer.fit(model, train_dataloader=train_dataloader, val_dataloaders=train_dataloader)
-    # print(train_dataset.time)
-    pred = model(torch.cat([torch.Tensor(feature) for feature in train_dataset.features]))
-    print(pred)
+    with torch.no_grad():
+        pred = model(torch.Tensor(train_dataset.features))
+    plt.plot(train_dataset.time[train_dataset.tau:], train_dataset.labels)
+    plt.plot(train_dataset.time[train_dataset.tau:], pred)
+
+    plt.show()
+
 if __name__ == "__main__":
     cli_main()
