@@ -34,6 +34,8 @@ class SequentialNet(LightningModule):
 
 
     def forward(self, x: Tensor) -> Tensor:
+        print('input')
+        print(x)
         return self.net(x)
     
     def training_step(self, batch: Tuple[Tensor, Tensor]) -> Dict[str, Tensor]:
@@ -83,9 +85,8 @@ class CustomedDataset(Dataset):
         return {'feature': data, 'label': label}
     @staticmethod
     def collate_fn(data_list):
-        features = torch.cat([item['feature'] for item in data_list], dim=0).view(len(data_list) ,-1)
-        labels = torch.cat([item['label'] for item in data_list])
-        print(features)
+        features = torch.cat([torch.Tensor(item['feature']) for item in data_list], dim=0).view(len(data_list) ,-1)
+        labels = torch.cat([torch.Tensor(item['label']) for item in data_list])
         return features, labels
 
 def cli_main():
@@ -94,11 +95,13 @@ def cli_main():
     args = parser.parse_args()
     model = SequentialNet(max_steps=10)
     train_dataset = CustomedDataset()
-    train_dataloader=DataLoader(train_dataset)
+    train_dataloader=DataLoader(train_dataset, collate_fn=CustomedDataset.collate_fn)
     # train
     print('=========================== args ==============')
     trainer = Trainer.from_argparse_args(args)
-    # trainer.fit(model, train_dataloader=train_dataloader, val_dataloaders=train_dataloader)
+    trainer.fit(model, train_dataloader=train_dataloader, val_dataloaders=train_dataloader)
     # print(train_dataset.time)
+    pred = model(torch.cat([torch.Tensor(feature) for feature in train_dataset.features]))
+    print(pred)
 if __name__ == "__main__":
     cli_main()
