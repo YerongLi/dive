@@ -12,6 +12,8 @@ from torch.nn.functional import softmax
 from torch.optim import Adam
 from torch.optim.optimizer import Optimizer
 import matplotlib.pyplot as plt
+from pytorch_lightning import loggers as pl_loggers
+
 
 class SequentialNet(LightningModule):
     @classmethod
@@ -39,14 +41,13 @@ class SequentialNet(LightningModule):
 
         return self.net(x)
     
-    def training_step(self, batch: Tuple[Tensor, Tensor]) -> Dict[str, Tensor]:
+    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> Dict[str, Tensor]:
         x, y = batch
         x = x.view(x.size(0), -1)
         y_hat = self.net(x)
         loss = self.loss_fn(y_hat, y)
         loss/= x.size(0)
-        tensorboard_logs = {"mse": loss}
-    
+        tensorboard_logs = {"train_loss": loss}
         return {"loss": loss, "log": tensorboard_logs, "progress_bar": tensorboard_logs}
     
     def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx: int) -> Dict[str, Tensor]:
@@ -58,9 +59,15 @@ class SequentialNet(LightningModule):
         loss/= x.size(0)
         return {"val_loss": loss}
 
+    def train_epoch_end(self, outputs: List[Dict[str, Tensor]]) -> Dict[str, Tensor]:
+        loss = torch.stack([output['train_loss'] for output in outputs])
+        return {
+            'loss': loss,
+            'log' : {'loss': loss},
+        }
     def configure_optimizers(self) -> Optimizer:
-        # return self.optimizer(self.parameters(), lr=self.hparams.learning_rate)
-        return self.optimizer(self.parameters(), lr=0.01)
+        # return self.opti,mizer(self.parameters(), lr=self.hparams.learning_rate)
+        return self.optimizer(self.parameters(), lr=0.005)
 
 class CustomedDataset(Dataset):
     """Face Landmarks dataset."""
@@ -99,7 +106,9 @@ def cli_main():
     train_dataloader=DataLoader(train_dataset, collate_fn=CustomedDataset.collate_fn, batch_size = 16)
     # train
     print('=========================== args ==============')
-    trainer = Trainer.from_argparse_args(args)
+    
+    tb_logger = pl_loggers.TensorBoardLogger(save_dir="regression_logs/")
+    trainer = Trainer.from_argparse_args(args, logger=tb_logger)
     trainer.fit(model, train_dataloader=train_dataloader, val_dataloaders=train_dataloader)
     with torch.no_grad():
         pred = model(torch.Tensor(train_dataset.features))
