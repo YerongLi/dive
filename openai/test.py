@@ -3,7 +3,7 @@ import openai
 import os
 openai.api_key = os.getenv("OPENAI_API_KEY")
 print(openai.api_key)
-prompt = "The massive explosions destroyed vehicles on a highway just outside the base at the Syrian port-city of Tartus, northwestern Syria. It is understood the first blast was a car bomb planetout outside the base. The second explosion was a suicide bomber who detonated his belt as people rushedto help those injured, AFP reported. What is attacker in the sentence: The massive explosions destroyed vehicles on a highway just outside the base at the Syrian port-city of Tartus, northwestern Syria?"
+prompt = "Elliott said that McVeigh gave him the $280.32 in exact change after declining to pay an additional amount for insurance. \n Who is the buyer of this event?"
 
 response = openai.Completion.create(
   model="text-davinci-003",
