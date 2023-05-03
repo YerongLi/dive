@@ -1,1 +1,4 @@
-nump
+numpy
+pandas
+transformers
+torch
