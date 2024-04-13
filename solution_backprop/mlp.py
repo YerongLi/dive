@@ -91,31 +91,31 @@ class MLP(object):
             # i is an iterator over the layers (from output to input)
 
             # Get the activations of the previous layer
-            activations = self.activations[i+1]  # Shape: (num_units_in_current_layer,)
+            activations = self.activations[i+1]  # Shape: (output_dim,)
 
             # Calculate the delta (error) for the current layer
             # by applying the sigmoid derivative function to the activations
             # and multiplying by the error from the next layer
-            delta = error * self._sigmoid_derivative(activations)  # Shape: (num_units_in_current_layer,)
+            delta = error * self._sigmoid_derivative(activations)  # Shape: (output_dim,)
 
             # Reshape the delta to a 2D array
-            delta_re = delta.reshape(delta.shape[0], -1).T  # Shape: (num_units_in_current_layer, 1)
+            delta_re = delta.reshape(delta.shape[0], -1).T  # Shape: (output_dim, 1)
 
             # Get the activations of the current layer
-            current_activations = self.activations[i]  # Shape: (num_inputs_to_current_layer,)
+            current_activations = self.activations[i]  # Shape: (input_dim,)
 
             # Reshape the current activations to a 2D column matrix
-            current_activations = current_activations.reshape(current_activations.shape[0], -1)  # Shape: (num_inputs_to_current_layer, 1)
+            current_activations = current_activations.reshape(current_activations.shape[0], -1)  # Shape: (input_dim, 1)
 
             # Calculate the derivative (gradient) for the current layer
             # by performing matrix multiplication between the current activations
             # and the reshaped delta
-            self.derivatives[i] = np.dot(current_activations, delta_re)  # Shape: (num_inputs_to_current_layer, num_units_in_current_layer)
+            self.derivatives[i] = np.dot(current_activations, delta_re)  # Shape: (input_dim, output_dim)
 
             # Backpropagate the error to the previous layer
             # by performing matrix multiplication between the delta
             # and the transposed weight matrix of the current layer
-            error = np.dot(delta, self.weights[i].T)  # Shape: (num_units_in_previous_layer,)
+            error = np.dot(delta, self.weights[i].T)  # Shape: (input_dim,)
 
 
     def train(self, inputs, targets, epochs, learning_rate):
