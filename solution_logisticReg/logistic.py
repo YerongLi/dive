@@ -69,7 +69,6 @@ predictions = regressor.predict(X_test)
 from sklearn.metrics import confusion_matrix, accuracy_score
 
 # Assuming y_test are the true labels and predictions are the predicted labels from your model
-cm = confusion_matrix(y_test, predictions)
 accuracy = accuracy_score(y_test, predictions)
 
 print(f"Test accuracy: {accuracy:.3f}")
