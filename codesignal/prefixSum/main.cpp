@@ -96,7 +96,7 @@ int main()
 
     // Test Case 3: All words are suffixes of each other
     words = {"back", "backdoor", "door", "comeback", "door"};
-    expected = 10;
+    expected = 4;
     result = solution(words);
     assert(result == expected);
     cout << "Test Case 3 passed." << endl;
@@ -119,3 +119,35 @@ int main()
 
     return 0;
 }
+
+
+// def count_suffix_pairs(words):
+//     # Variable to store the count of pairs with shared suffixes
+//     pairs_count = 0
+//     # List to store all pairs
+//     all_pairs = []
+
+//     # Iterate over each word in the list of words
+//     for i in range(len(words)):
+//         for j in range(i+1, len(words)):
+//             word1 = words[i]
+//             word2 = words[j]
+//             # Check if two words are identical
+//             if word1 == word2:
+//                 pairs_count += 1
+//                 all_pairs.append((word1, word2))
+//             else:
+//                 # Check if one word is a suffix of the other
+//                 if word1.endswith(word2) or word2.endswith(word1):
+//                     pairs_count += 1
+//                     all_pairs.append((word1, word2))
+
+//     # Return the total count of pairs with shared suffixes and all pairs
+//     return pairs_count, all_pairs
+
+// # List of words to test the function
+// words = ["back", "backdoor", "door", "comeback", "door"]
+// # Call the function
+// result_count, result_pairs = count_suffix_pairs(words)
+// print("Number of pairs with shared suffixes:", result_count)
+// print("All pairs with shared suffixes:", result_pairs)
