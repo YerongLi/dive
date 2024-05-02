@@ -53,7 +53,8 @@ def solution2(items):
         total += count_items_of_length(ii, items_of_length)
     return total
 
-
+def solution(nums):
+    nums 
 
 # Test Case 1
 nums = [1, 9, 33, 402, 420, 502, 1]
