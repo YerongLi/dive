@@ -1,16 +1,33 @@
-def solution1(lamps):
+def solution2(lamps):
+    # Sort the intervals based on the starting point of each lamp's illumination range
     intervals = sorted([i - r, i + r] for i, r in lamps)
     ans = 0
-    start, end = intervals[0]
+    start, end = intervals[0]  # Initialize start and end points with the first interval
+    
+    # Iterate through the sorted intervals
     for l, r in intervals[1:]:
+        # Check if there is a gap between the current interval and the previous one
         if l > start:
+            # If there is a gap, add the number of integers illuminated by the previous interval
+            # up to the start of the current interval
             ans += min(end + 1, l) - start
+        
+        # Update the start point for the next iteration
         if end > r:
+            # If the end of the previous interval extends beyond the current interval,
+            # update the start point to the right end of the current interval
             start = max(start, r + 1)
         else:
+            # Otherwise, update the start point to the right end of the previous interval
             start = max(end + 1, l)
+        
+        # Update the end point to the maximum of the current and previous interval's end points
         end = max(r, end)
-    return ans + end - start + 1
+    
+    # Add the number of integers illuminated by the last interval
+    ans += end - start + 1
+    
+    return ans
 
 # def solution1(lamps):
 #     illuminated_coordinates = set()
