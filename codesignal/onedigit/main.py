@@ -54,8 +54,20 @@ def solution2(items):
     return total
 
 def solution(nums):
-    nums 
-
+    nums = [str(n) for n in nums]
+    ans = 0
+    def count_length(nums, l):
+        res = 0
+        for x in Counter(nums).values():
+            res-= (x * (x - 1)) >> 1
+        for i in range(l):
+            nums_dropped_i = [n[:i] + n[i+1:] for n in nums]
+            for x in Counter(nums_dropped_i).values():
+                res+= x * (x - 1) >> 1
+        return res
+    for length in range(1, 12):
+        ans+= count_length([n for n in nums if len(n) == length], length)
+    return ans
 # Test Case 1
 nums = [1, 9, 33, 402, 420, 502, 1]
 expected = solution1(nums)
