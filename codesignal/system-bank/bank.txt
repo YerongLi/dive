@@ -1,0 +1,285 @@
+from heapq import heappop, heappush
+from collections import deque
+def solution(queries):
+    ans  = []
+    accounts = {}
+    trans = {}
+    pq = []
+    payments_dq = deque()
+    payment_counter = 0
+    payment_statuses = {}
+    for q in queries:
+        ts = int(q[1])
+        while payments_dq and ts >= payments_dq[0][0]:
+            aid, payment_id, cashback_amount = payments_dq[0][1:]
+            payments_dq.popleft()
+            
+            payment_statuses[aid][payment_id] = "CASHBACK_RECEIVED"
+            print(payments_dq)
+            accounts[aid]+= cashback_amount
+        if q[0] == 'CREATE_ACCOUNT':
+            if q[2] in accounts:
+                ans.append("false")
+            else:
+                accounts[q[2]] = 0
+                trans[q[2]] = 0
+                payment_statuses[q[2]] = {}
+                heappush(pq, (-0, q[2]))
+                ans.append("true")
+        elif q[0] == 'DEPOSIT':
+            aid, amt = q[2], q[3]
+            if aid not in accounts:
+                ans.append("")
+            else:
+                accounts[aid]+= int(amt)
+                ans.append(str(accounts[aid]))
+        elif q[0] == 'TRANSFER':
+            
+            # print(q[1], accounts)
+            sid, tid, amt = q[2], q[3], int(q[4])
+            if tid ==sid or sid not in accounts or tid not in accounts or accounts[sid] < amt:
+                ans.append('')
+            else:
+                accounts[tid]+= amt
+                accounts[sid]-= amt
+                
+                ans.append(str(accounts[sid]))
+                trans[sid]+= amt
+                heappush(pq, (-trans[sid], sid))
+                
+        elif q[0] == 'TOP_SPENDERS':
+            res = []
+            n = int(q[2])
+            while n and pq:
+                # print
+                tmt, aid = -pq[0][0], pq[0][1]
+
+                heappop(pq)
+                if aid not in trans or tmt !=  trans[aid]: continue
+                res.append((aid, tmt))
+                n-= 1
+            for aid, tmt in res:
+                heappush(pq, (-tmt, aid))
+
+            ans.append(', '.join([ f'{aid}({tmt})' for aid, tmt in res]))
+       
+        elif q[0] == 'PAY':
+            ts, aid, amt = int(q[1]), q[2], int(q[3])
+            if aid not in accounts or accounts[aid] < amt:
+                ans.append('')
+            else:
+                payment_counter += 1
+                payment_id = f"payment{payment_counter}"
+                accounts[aid] -= amt
+                trans[aid]+= amt
+                heappush(pq, (-trans[aid], aid))
+
+                cashback_amount = amt // 50  # 2% cashback
+                payments_dq.append([ts + 86400000, aid, payment_id, cashback_amount])
+                payment_statuses[aid][payment_id] = "IN_PROGRESS"
+
+                ans.append(payment_id)
+
+        
+        elif q[0] == 'GET_PAYMENT_STATUS':
+            ts, aid, payment_id = int(q[1]), q[2], q[3]
+            if aid not in accounts or payment_id not in payment_statuses[aid]:
+                ans.append('')
+            else: ans.append(payment_statuses[aid][payment_id])
+    
+        elif q[0] == 'MERGE_ACCOUNTS':
+            ts, aid1, aid2 = int(q[1]), q[2], q[3]
+            if aid1 == aid2 or aid1 not in accounts or aid2 not in accounts:
+                ans.append("false")
+            else:
+                # Merge balances
+                accounts[aid1] += accounts[aid2]
+
+                # Process pending cashback for merged account
+                for i, record in enumerate(payments_dq):
+                    aid, payment_id, cashback_amount = record[1:]
+                    if aid == aid2:
+                        payments_dq[i][1] = aid2
+
+                # Merge payment statuses
+                payment_statuses[aid1].update(payment_statuses.pop(aid2, {}))
+
+                # Remove merged account
+                del accounts[aid2]
+                trans[aid1]+= trans[aid2]
+                del trans[aid2]
+                heappush(pq, (-trans[aid1], aid1))
+
+                ans.append("true")
+        
+        elif q[0] == 'GET_BALANCE':
+            ts, aid, timeAt = int(q[1]), q[2], int(q[3])
+            if aid not in accounts:
+                ans.append("")
+            else:
+                balance = accounts[aid]
+                for ts, merged_aid, _ in payments_dq:
+                    if merged_aid == aid and ts <= timeAt:
+                        balance += cashback_amount
+                ans.append(str(balance))
+                
+    return ans
+            
+# [
+#   "true",
+#   "true",
+#   "2000",
+#   "1000",
+#   "payment1",
+#   "payment2",
+#   "payment3",
+#   "payment4",
+#   "1600",
+#   "600",
+#   "1702",
+#   "700"
+# ]
+
+
+
+from heapq import heappop, heappush
+from collections import deque
+def solution(queries):
+    ans  = []
+    accounts = {}
+    trans = {}
+    pq = []
+    payments_dq = deque()
+    payment_counter = 0
+    payment_statuses = {}
+    for q in queries:
+        ts = int(q[1])
+        while payments_dq and ts >= payments_dq[0][0]:
+            aid, payment_id, cashback_amount = payments_dq[0][1:]
+            payments_dq.popleft()
+            
+            payment_statuses[aid][payment_id] = "CASHBACK_RECEIVED"
+            print(payments_dq)
+            accounts[aid]+= cashback_amount
+        if q[0] == 'CREATE_ACCOUNT':
+            if q[2] in accounts:
+                ans.append("false")
+            else:
+                accounts[q[2]] = 0
+                trans[q[2]] = 0
+                payment_statuses[q[2]] = {}
+                heappush(pq, (-0, q[2]))
+                ans.append("true")
+        elif q[0] == 'DEPOSIT':
+            aid, amt = q[2], q[3]
+            if aid not in accounts:
+                ans.append("")
+            else:
+                accounts[aid]+= int(amt)
+                ans.append(str(accounts[aid]))
+        elif q[0] == 'TRANSFER':
+            
+            # print(q[1], accounts)
+            sid, tid, amt = q[2], q[3], int(q[4])
+            if tid ==sid or sid not in accounts or tid not in accounts or accounts[sid] < amt:
+                ans.append('')
+            else:
+                accounts[tid]+= amt
+                accounts[sid]-= amt
+                
+                ans.append(str(accounts[sid]))
+                trans[sid]+= amt
+                heappush(pq, (-trans[sid], sid))
+                
+        elif q[0] == 'TOP_SPENDERS':
+            res = []
+            n = int(q[2])
+            while n and pq:
+                # print
+                tmt, aid = -pq[0][0], pq[0][1]
+
+                heappop(pq)
+                if aid not in trans or tmt !=  trans[aid]: continue
+                res.append((aid, tmt))
+                n-= 1
+            for aid, tmt in res:
+                heappush(pq, (-tmt, aid))
+
+            ans.append(', '.join([ f'{aid}({tmt})' for aid, tmt in res]))
+       
+        elif q[0] == 'PAY':
+            ts, aid, amt = int(q[1]), q[2], int(q[3])
+            if aid not in accounts or accounts[aid] < amt:
+                ans.append('')
+            else:
+                payment_counter += 1
+                payment_id = f"payment{payment_counter}"
+                accounts[aid] -= amt
+                trans[aid]+= amt
+                heappush(pq, (-trans[aid], aid))
+
+                cashback_amount = amt // 50  # 2% cashback
+                payments_dq.append([ts + 86400000, aid, payment_id, cashback_amount])
+                payment_statuses[aid][payment_id] = "IN_PROGRESS"
+
+                ans.append(payment_id)
+
+        
+        elif q[0] == 'GET_PAYMENT_STATUS':
+            ts, aid, payment_id = int(q[1]), q[2], q[3]
+            if aid not in accounts or payment_id not in payment_statuses[aid]:
+                ans.append('')
+            else: ans.append(payment_statuses[aid][payment_id])
+    
+        elif q[0] == 'MERGE_ACCOUNTS':
+            ts, aid1, aid2 = int(q[1]), q[2], q[3]
+            if aid1 == aid2 or aid1 not in accounts or aid2 not in accounts:
+                ans.append("false")
+            else:
+                # Merge balances
+                accounts[aid1] += accounts[aid2]
+
+                # Process pending cashback for merged account
+                for i, record in enumerate(payments_dq):
+                    aid, payment_id, cashback_amount = record[1:]
+                    if aid == aid2:
+                        payments_dq[i][1] = aid2
+
+                # Merge payment statuses
+                payment_statuses[aid1].update(payment_statuses.pop(aid2, {}))
+
+                # Remove merged account
+                del accounts[aid2]
+                trans[aid1]+= trans[aid2]
+                del trans[aid2]
+                heappush(pq, (-trans[aid1], aid1))
+
+                ans.append("true")
+        
+        elif q[0] == 'GET_BALANCE':
+            ts, aid, timeAt = int(q[1]), q[2], int(q[3])
+            if aid not in accounts:
+                ans.append("")
+            else:
+                balance = accounts[aid]
+                for ts, merged_aid, _ in payments_dq:
+                    if merged_aid == aid and ts <= timeAt:
+                        balance += cashback_amount
+                ans.append(str(balance))
+                
+    return ans
+            
+# [
+#   "true",
+#   "true",
+#   "2000",
+#   "1000",
+#   "payment1",
+#   "payment2",
+#   "payment3",
+#   "payment4",
+#   "1600",
+#   "600",
+#   "1702",
+#   "700"
+# ]
