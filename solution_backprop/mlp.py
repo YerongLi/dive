@@ -117,7 +117,18 @@ class MLP(object):
             # and the transposed weight matrix of the current layer
             error = np.dot(delta, self.weights[i].T)  # Shape: (input_dim,)
 
+        # n = len(self.weights)
+        # da = error
+        # for i in range(n - 1, -1, -1):
+        #     # L - 1 output : k
+        #     delta = da * self._sigmoid(self.activations[i + 1]) * (1 - self._sigmoid(self.activations[i + 1]))
 
+        #     # L - 1 : k * (k + 1)
+        #     self.derivatives[i]= self.activations[i].reshape(-1, 1) @ delta.reshape(1, -1)
+
+        #     # L - 2 da
+        #     da = delta @ self.weights[i].T
+        
     def train(self, inputs, targets, epochs, learning_rate):
         """Trains model running forward prop and backprop
         Args:
