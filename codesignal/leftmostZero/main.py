@@ -26,27 +26,20 @@ def solution1(state, operations):
 
 
 def solution(state, operations):
-    # 初始化一个存储0的位置的列表
-    zero_positions = [i for i, value in enumerate(state) if value == 0]
+    from bisect import insort
+    # xs = []
+    xs = [i for i, x in enumerate(state) if x == 0]
+    for o in operations:
+        if o == 'L':
+            if xs:
+                state[xs[0]] = 1
+                del xs[0]
+        else:
+            x = int(o[2:-1])
+            if state[x]:
 
-    for op in operations:
-        if op == "L":
-            # 如果还有0的位置，就取第一个0的位置，并将其设置为1
-            if zero_positions:
-                first_zero_pos = zero_positions.pop(0)
-                state[first_zero_pos] = 1
-        elif op.startswith("C"):
-            # 提取C操作后的索引i，并将其设置为0
-            _, index = op.split("(")
-            index = int(index[:-1])  # 去掉右括号并转换为整数
-            state[index] = 0
-            # 将位置i按顺序插入到zero_positions中
-            # 保持zero_positions的有序性，可以使用二分查找来找到插入位置
-            insert_pos = bisect.bisect_left(zero_positions, index)
-            # 如果这个位置不在列表中，就插入它
-            if insert_pos == len(zero_positions) or zero_positions[insert_pos] != index:
-                zero_positions.insert(insert_pos, index)
-
+                insort(xs, x)
+                state[x] = 0
     return state
 
 # Test Case 1
