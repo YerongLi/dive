@@ -1,4 +1,18 @@
 import bisect
+def solution(state, operations):
+    zeros = [i for i, x in enumerate(state) if x == 0]
+    for o in operations:
+        if o == 'L':
+            if zeros:
+                state[zeros[0]] = 1
+                del zeros[0]
+        else:
+            x = int(o[2:-1])
+            if state[x]:
+                state[x] = 0
+                bisect.insort(zeros, x)
+    return state
+    # return state
 
 def solution1(state, operations):
     # 初始化一个存储0的位置的列表
@@ -24,23 +38,6 @@ def solution1(state, operations):
 
     return state
 
-
-def solution(state, operations):
-    from bisect import insort
-    # xs = []
-    xs = [i for i, x in enumerate(state) if x == 0]
-    for o in operations:
-        if o == 'L':
-            if xs:
-                state[xs[0]] = 1
-                del xs[0]
-        else:
-            x = int(o[2:-1])
-            if state[x]:
-
-                insort(xs, x)
-                state[x] = 0
-    return state
 
 # Test Case 1
 state = [0, 1, 0, 1, 0]
