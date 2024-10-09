@@ -1,5 +1,27 @@
 def solution(matrix, q):
     n = len(matrix)
+    if q == 0:
+        # i, j = j, n - 1 - i
+        for i in range(n):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+        for i in range(n):
+            for j in range( (1+n) >> 1):
+                matrix[i][j], matrix[i][n- 1- j] = matrix[i][n - 1 - j], matrix[i][j]
+    
+    if q == 1:
+        for i in range(n):
+            for j in range(i):
+                matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+    if q == 2:
+        # i j -> n - 1 - j , n - 1 - i
+        for i in range(n):
+            for j in range(n - i):
+                matrix[i][j], matrix[n - 1 - j][n - 1- i] = matrix[n - 1- j][n - 1- i], matrix[i][j]
+
+    return matrix
+def solution1(matrix, q):
+    n = len(matrix)
     
     if q == 0:  # Rotate the matrix clockwise 90 degrees in place
         # Transpose the matrix
@@ -31,23 +53,33 @@ def solution(matrix, q):
 
     return matrix
 
-# Example usage:
+
+
 matrix = [[1, 2, 3],
           [4, 5, 6],
           [7, 8, 9]]
 
 q = 0
-print(solution(matrix, q))  # Rotate the matrix clockwise 90 degrees in place
+assert solution(matrix, q) == solution1(matrix, q), f"Test failed for q = {q}"
 
 matrix = [[1, 2, 3],
           [4, 5, 6],
           [7, 8, 9]]
+
 q = 1
-print(solution(matrix, q))  # Flip the matrix on the main diagonal in place
+assert solution(matrix, q) == solution1(matrix, q), f"Test failed for q = {q}"
 
 matrix = [[1, 2, 3],
           [4, 5, 6],
           [7, 8, 9]]
-q = 2
-print(solution(matrix, q))  # Flip the matrix on the second diagonal in place
 
+q = 2
+assert solution(matrix, q) == solution1(matrix, q), f"Test failed for q = {q}"
+
+
+matrix = [[1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9]]
+for row in solution(matrix,2):
+    print(row)
+print("All tests passed!")

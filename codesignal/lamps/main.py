@@ -29,44 +29,45 @@ def solution2(lamps):
     
     return ans
 
-# def solution1(lamps):
-#     illuminated_coordinates = set()
-#     for lamp in lamps:
-#         start = lamp[0] - lamp[1]
-#         end = lamp[0] + lamp[1]
-#         for i in range(start, end + 1):
-#             illuminated_coordinates.add(i)
+def solution1(lamps):
+    illuminated_coordinates = set()
+    for lamp in lamps:
+        start = lamp[0] - lamp[1]
+        end = lamp[0] + lamp[1]
+        for i in range(start, end + 1):
+            illuminated_coordinates.add(i)
     
-#     count = 0
-#     for coordinate in illuminated_coordinates:
-#         if sum(1 for lamp in lamps if coordinate >= lamp[0] - lamp[1] and coordinate <= lamp[0] + lamp[1]) == 1:
-#             count += 1
+    count = 0
+    for coordinate in illuminated_coordinates:
+        if sum(1 for lamp in lamps if coordinate >= lamp[0] - lamp[1] and coordinate <= lamp[0] + lamp[1]) == 1:
+            count += 1
     
     # return count
 def solution(lamps):
-    intervals = [[lamp[0] - lamp[1], lamp[0] + lamp[1]] for lamp in lamps]
-
+    intervals = [[c -r , c + r] for c, r in lamps]
+    st, ed = intervals[0]
+    intervals = sorted(intervals)
     ans = 0
-    inf = -2e9
-    st, ed = inf, inf
     print(intervals)
-    for interval in intervals:
-        if ed < interval[0]:
-            if st != inf:
-                ans+= (ed - st + 1)
-            st, ed = interval
+    for l, r in intervals[1:]:
+        # st, ed
+        # st, l ,ed, r
+        # st, l, r, ed
+        # st, ed ,l,  r
+        if l <= ed and ed < r:
+            ans+= (l - st)
+            print(st, l - 1)
+            st, ed = ed + 1, r
+        elif r < ed:
+            print(st, l - 1)
+            ans+= (l - st)
+            st, ed = r + 1, ed
         else:
-            if ed <= interval[1]:
-                ans+= (interval[0] - st)
-                if ed < interval[1]:
-                    st, ed = ed + 1, interval[1]
-                else:
-                    st, ed = inf, inf
-            else:
-                ans+= (interval[0] - st)
-                st, ed = interval[1] + 1, ed
-        print(interval, ans)
-    return ans
+            st, ed = l, r
+    print(st, ed)
+    return ans + ed - st + 1
+
+
 
 
 
