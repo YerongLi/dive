@@ -1,4 +1,30 @@
 from collections import deque
+def solution(times):
+    ans = -0x7f7f7f7f
+    q = deque()
+    for time in times:
+        while q and q[0] < time: q.popleft()
+        starttime = time
+        if q : starttime = max(time, q[-1])
+        finishtime = starttime + 300
+        ans = max(ans, finishtime)
+        q.append(finishtime)
+    return ans
+
+def solution2(times):
+    ans = -0x7f7f7f7f
+    # Store the finishing time of the people in the queue
+    q = deque()
+
+    for time in times:
+        while q and q[0] < time: q.popleft()
+        if len(q) == 10: continue
+        # start time should be current time if the queue is empty,
+        # start time the last finishing time if q is not empty
+        finishtime = 300 + max(time, q[-1] if q else 0) 
+        q.append(finishtime)
+        ans = max(ans, finishtime)
+
 def solution1(arrival_times):
     # Initialize variables
     current_time = 0
@@ -37,17 +63,6 @@ def solution1(arrival_times):
         
     return max_completion_time
 
-def solution(times):
-    ans = 0
-    q = deque()
-    for time in times:
-        while q and q[0] < time: q.popleft()
-
-        if len(q) == 10: continue
-        finishtime = max(time, q[-1] if q else 0) + 300
-        q.append(finishtime)
-        ans = max(ans, finishtime)        
-    return ans
 
 
 arrival_times = [1,6,9,502]
