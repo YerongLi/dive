@@ -1,0 +1,729 @@
+Bytedance
+Meta
+Robinhood
+Datadog
+Amazon
+InterSystems
+Microsoft
+LinkedIn
+Squarepoint
+Lyft
+Google
+Codesignal
+Uber
+Optiver
+Apple
+Tradedesk
+Atlassian
+Millennium Management
+Citadel
+AkunaCapital
+Scale.ai
+Snapchat
+IBM
+Pinterest
+DoorDash
+Openai
+NVIDIA
+Dell
+Goldman Sachs
+Yelp
+Databricks
+Cisco
+Infosys
+Weride
+Discovery
+Coinbase
+Palantir
+JP Morgan
+Roblox
+Snowflake
+Grubhub
+eBay
+Bloomberg
+Stripe
+Circle
+Airbnb
+National Instruments
+Affirm
+Intuit
+Ziprecruiter
+Salesforce
+UBS
+Patreon
+Jane Street
+Instacart
+Fortinet
+Micron Technology
+Abnormalsecurity
+Ramp
+Voleon
+Chime
+Boston Consulting Group
+IMC
+Zoom
+Deshaw
+Fiverings
+Hudson River Trading
+Sig
+Capital One
+Waymo
+Intersystem
+Oscar Health
+Aurora
+Headlands technologies
+Agoda
+Liftoff
+Cash App
+拼多多
+Okta
+Confluent
+IXL Learning
+Wells Fargo
+Visa
+Riot Games
+Workday
+Booking.com
+Huawei
+Rentec
+C3.ai
+Zoox
+PayPal
+Coupang
+Upstart
+Yahoo
+Barclays
+Grammarly
+Epic Systems
+Anyscale
+BlackRock
+HubSpot
+SoFi
+Anthropic
+Square
+Molocoads
+DRW
+Bank of America
+Notion
+Reddit
+Blackstone
+Geico
+Splunk
+Adobe
+SAP
+Arista Networks
+Tsmc
+GitHub
+Expedia
+Twitter
+Flowtraders
+Mavensecurities
+Regeneron
+Credit Karma
+Walmart Labs
+Two Sigma
+Vanguard
+Remitly
+Nextdoor
+Point72 Asset Management
+Whatnot
+Wayfair
+Applied intuition
+Morgan Stanley
+Intuitive Surgical
+MathWorks
+Eli-lilly
+CVS
+Citi
+Grab
+Coda
+Oracle
+Netflix
+Tower Research
+Palo Alto Networks
+Tesla
+京东Jingdong
+Stackadapt
+UiPath
+Jump Trading
+Alibaba
+DocuSign
+Virtu Financial
+Xiaopeng
+Chegg
+Intel
+Aquatic Capital Management
+Beaconfiresolution
+Spotify
+Tinder
+NURO
+Squarespace
+American Express
+滴滴Didi
+奇虎360
+Disney
+Shopify
+Fidelity
+Duolingo
+Rakuten
+Airwallex
+Flexport
+Airtable
+Gsk
+Dropbox
+Arrowstreetcapital
+MongoDB
+Addepar
+Qualcomm
+Schlumberger
+Verizon
+ServiceNow
+OtterAI
+Turo
+蚂蚁金服antgroup
+AMD
+Nio
+Discord
+Plaid
+Newsbreak
+Antra
+ADP
+Interactive Brokers
+Belvedere Trading
+Brex
+Tencent
+Valkyrie
+Baidu
+Spacex
+Box
+Chicagotrading
+Lacework
+Thumbtack
+Gartner
+Applovin
+globalfoundries
+Lamresearch
+Abbvie
+Indeed
+Cruise
+Attentive
+Blizzard Entertainment
+Honeywell
+Target
+Figma
+Bill.com
+小红书
+ASML
+携程ctrip
+Current
+Flatiron Health
+Slack
+Trexquant
+Esri
+Lime Bike
+Oldmissioncapital
+Nordstrom
+McKinsey
+Volant
+Samsung
+Procter & Gamble
+Klaviyo
+TripAdvisor
+Johnson & Johnson
+Itlize
+Electronic Arts
+Audible
+NetApp
+Juniper Networks
+Sigmacomputing
+Prudential
+Shopee
+Lucid Software
+Lucidmotors
+Playstation
+Nutanix
+Etsy
+Baanyan
+Deutsche Bank
+Axxess
+Cadence
+Udemy
+Freewheel
+Twitch
+Autodesk
+PwC
+Sentry.io
+Tigergraph
+Cerner
+Marvell
+Smartsheet
+Woven-planet
+Hopper
+Verily
+Sony
+Dimensional
+Startups.com
+Cockroachlabs
+Okcoin
+Deloitte
+Pony.ai
+Here
+Red Hat
+Cloudflare
+Quora
+Comcast
+Broadcom
+Discover
+Gusto
+Chewy
+Synopsys
+Klarna
+Boeing
+Glassdoor
+Aetna
+Qualtrics
+菜鸟网络Cainiao
+Nomura
+Marklogic
+Tableau
+Crowdstrike
+Docker
+Humana
+Lendingclub
+Waabi
+Moodys
+USAA
+Pure Storage
+Starbucks
+DraftKings
+General Motors
+clickup
+美团metuan
+Wealthsimple
+Raytheon
+Ziphq
+Seatgeek
+Asana
+Chanzuckerberg
+Cloudkitchens
+F5 Networks
+Insight
+Samsara
+Bostondynamics
+Envoy
+Unity
+Accenture
+Activision
+Pdtpartners
+Bitgo
+Schwab
+Navan
+Binance
+Akamai Technologies
+Scientechresearch
+Coursera
+OfferUp
+快手Kuaishou
+Western Digital
+AppFolio
+HSBC Bank
+Ripple
+FDA
+Zillow
+Michaels
+ARM
+Bain
+Fetchrewards
+Johndeere
+商汤
+Ericsson
+AT&T
+Marlabs
+Veeva
+FactSet
+Hulu
+Matroid
+Siriusxm
+Pandora
+Odoo
+Jerry.ai
+Microstrategy
+Roku
+Rokt
+小米xiaomi
+Gilead
+Liveramp
+Bentley
+Rivos
+Cogentinfo
+平安科技
+Mediatek
+Supermicro
+Amobee
+Blue Cross Blue Shield
+Gsacapital
+Fanatics
+TuSimple
+PEAK6 Investments
+Niantic
+Siemens
+Nextinsurance
+Amplitude
+Realtor.com
+Nokia
+DataVisor
+Axon
+米哈游
+Nerdwallet
+Qorvo
+Flipkart
+Quantcast
+GoDaddy
+Hive.ai
+Gene
+Aon
+Twilio
+Morningstar
+Novartis
+Wish
+Calicolabs
+Iqvia
+Exoduspoint
+Persona
+Peloton
+Rubrik
+Macquarie
+Infogain
+AQR Capital Management
+American-credit-acceptance
+Takeda
+Nike
+Analog
+Taboola
+Newyorklife
+Alarm
+Moderna
+Rbcroyalbank
+VMware
+American Airlines
+Mixpanel
+HBO
+Truist
+Blend360
+Blend
+Wealthfront
+Hewlett Packard Enterprise
+Pocket Gems
+Zscaler
+Amgen
+Kanerai
+pendo.io
+Clearstreet
+Ekimetrics
+BNY Mellon
+Mozilla
+Everlaw
+Cognex
+Guidewire Software
+Ceridian
+Sonos
+Redfin
+Genospace
+Bayer
+Dupont
+Zenefits
+Arcticwolf
+Biogen
+Irobot
+T-Mobile
+WhatsApp
+Opendoor
+Boehringer-ingelheim
+Houzz
+Shutterfly
+Worldquant
+Cohesity
+Cargurus
+Moodysanalytics
+Cloudera
+Nbcuniversal
+Bridgewater
+Quantumblack
+Bolt
+Mastercard
+0xLabs
+网易NetEase
+Activtrak
+Yext
+Lutron
+Zulily
+Quip
+Wing
+Sentilink
+Capgemini
+Liberty Mutual
+Wholefoods
+Compass
+Paxos
+Illumio
+Sam's Club
+WeWork
+AllianceBernstein
+Cme Group
+Bilibili
+Servicetitan
+Torc.ai
+Convoy
+hashicorp
+Lumen
+Marketaxess
+Intercom
+Credit Suisse
+Scaleflux
+Stevens Capital
+Zocdoc
+MuleSoft
+Mapbox
+Caascap
+Quantlab
+Certik
+Singlestore
+Natera
+Ancestry
+Pathai
+Tubitv
+Verisk
+Qumulo
+Paytm
+Angi
+Boss直聘
+Checkr
+Arcesium
+Zendesk
+Gopuff
+Autox
+Better
+Seveneightcapital
+6sense
+海康威视
+Evernote
+WePay
+爱奇艺iqiyi
+Lseg
+Devrev
+Lockheed Martin
+Chainalysis
+Faraday Future
+Hyperfine
+Epic Games
+Tapad
+Betterhelp
+Noom
+Keysight
+Lazard
+Coursehero
+Viantinc
+中银金科
+Magic Leap
+Northrop Grumman
+3m
+Argo.ai
+Taxbit
+Carta
+Cirrus
+Lucasgroup
+Toptal
+Airbyte
+Bank of America Merrill Lynch
+Pnc
+Foursquare
+Imprint
+Firstrepublic
+Autel
+Unitedhealthgroup
+陆金所Lujinsuo
+Hippo Insurance
+Nyse
+Groupon
+Slalom
+Mino-automation
+Weee
+Chronosphere
+Tradeweb
+Caterpillar
+Beyond12
+Clutter
+Smartnews
+Zappos
+Citrix
+Federal Reserve Bank
+Thoughtspot
+Fitbit
+SoundHound
+starburst
+Tanium
+Commscope
+Dorabot
+HomeDepot
+Tracelink
+Horizon Robotics
+Aeva
+ThoughtWorks
+Teladoc
+Carvana
+Dataminr
+Crypto.com
+Capstoneco
+Publicisgroupe
+SurveyMonkey
+Dreamcraft
+猿辅导
+Alation
+Criteo
+Sanofi
+声网
+Medtronic
+Cepton
+Triplebyte
+Proofpoint
+Forestcreekcap
+Wyze
+Netskope
+Veritas Technologies
+Reyrey
+Aibee
+Circleci
+Appdynamics
+Diaassociates
+Publicissapient
+Thras.io
+coupa
+Udacity
+Simplisafe
+Transunion
+Wpp
+Fast.co
+Heartdub
+Postmates
+Poshmark
+Nextroll
+Tredence
+Asapp
+作业帮
+D2l
+Plume
+Cognizant
+Shippo
+Rescale
+Demandbase
+Nintendo
+dialpad
+Zynga
+Redventures
+Strivr
+Nest
+Evisort
+Jet.com
+Blockchain.com
+Genesistrading
+Thredup
+Sumo Logic
+New York Times
+Rally Health
+Whova
+Maximintegrated
+Livongo
+Pinwheel
+Cloverhealth
+Sisudata
+Flexe
+Loom
+Lifo.ai
+Houlihanlokey
+Tanius
+乐鑫科技
+Panagora
+蓝湖
+Curology
+XY Capital
+Tekion
+Sothebys
+Petuum
+acorns
+Fico
+Dianins
+Hyland
+Merchante
+Hiretual
+Boozallen
+viagogo
+Inceptio
+Pluralsight
+Altonomy
+Juul
+Ocrolus
+Seagen
+Acutemax
+ClassPass
+Sisense
+Rightcapital
+Uptake
+Tevora
+Housecallpro
+Freightpath
+Pathrise
+Assurecare
+Hindujatech
+Oncor
+Copart
+喜马拉雅
+Anaplan
+Mcafee
+Homesite
+Centivacapital
+Gds
+Eidebailly
+Bcdtravel
+Bankozk
+Aciworldwide
+Praxairusa
+Hamsapay
+Riskval
+Customerxi
+Bounteous
+Kingstreet
+L3harris
+Alticeusa
+Nortonlifelock
+Factual
+Next Jump
+Heliosdata
+Losant
+Jazzhr
+Blink.ai
+Jabra
+Novacredit
+Optimizely
+Bird
+Squaretrade
+Symantec
+IPSY
+BrightEdge
+Zume
+Datrium
+Fidessa
+Whitepages
+Homeaway
+pivotal
+ForUsAll
+Openx
+Broadway Technology
+Lendinghome
+Retailmenot
+Marketo
+Medallia
+drive.ai
+Narvar
+Next Capital
+Xcalar
+Ipsoft

@@ -1,3 +1,42 @@
+
+tr = None
+cnt = None
+idx = 0
+base = ord('a')
+def ins(word):
+    global idx, tr, cnt
+    p = 0
+
+    for c in word[::-1]:
+        x = ord(c) - base
+        if 0 == tr[p][x]:
+            idx+= 1
+            tr[p][x] = idx
+        p = tr[p][x]
+    cnt[p]+= 1
+def solution(wordList):
+    global tr, cnt, idx
+    M = (len(wordList) * 100)
+    tr = [[0] * 26 for _ in range(M)]
+    cnt = [0] * M
+    idx = 0
+    for word in wordList:
+        ins(word)
+    ans = 0
+    for word in wordList:
+        p = 0
+        for c in word[::-1]:
+            x = ord(c) - base
+            if 0 == tr[p][x]:
+                break
+            else:
+                ans+= cnt[p]
+                p = tr[p][x]
+    for p in range(idx+1):
+        ans += (cnt[p]-1) *cnt[p] >> 1
+    return ans 
+
+
 # Constants for the size of the Trie
 N = 2000      # Max number of nodes we need (adjust if needed)
 M = N * 27      # Each node can have 26 children (for each letter) + 1 for end
@@ -8,7 +47,7 @@ cnt = [0] * M                      # Count of words ending at each Trie node
 idx = 1                             # Trie node index
 
 # Insert a word into the Trie in reverse order
-def insert(word):
+def insert1(word):
     global idx
     p = 0  # Start at the root of the Trie
     for i in range(len(word) - 1, -1, -1):  # Insert in reverse order
@@ -20,7 +59,7 @@ def insert(word):
     cnt[p] += 1  # Mark the end of a word and increase its count
 
 # Search the Trie for suffixes of the word
-def search(word):
+def search1(word):
     p = 0
     res = 0
     for i in range(len(word) - 1, -1, -1):  # Traverse the Trie in reverse
@@ -32,7 +71,7 @@ def search(word):
     return res - 1  # Subtract 1 to exclude the word itself
 
 # Function to count suffix pairs
-def solution(words):
+def solution1(words):
     global tr, cnt, idx
     M = (len(words)+3) * 100
     tr = [[0] * 26 for _ in range(M)]  # Reset the Trie
@@ -66,7 +105,7 @@ result = solution(words)
 assert result == expected, f"Test Case 1 failed. Expected: {expected}, Got: {result}"
 
 
-words = ['a', 'a','a', 'a']
+words = ['a', 'a', 'a', 'a']
 expected = 6
 result = solution(words)
 assert result == expected, f"Test Case 1 failed. Expected: {expected}, Got: {result}"
