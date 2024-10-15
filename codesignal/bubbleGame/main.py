@@ -48,3 +48,36 @@ operations = [
 
 print(eliminate_bubbles(bubble, operations))
 
+    def _post_encode(self, model, data: Any) -> Dict[str, Any]:
+        res = super()._post_encode(model, data)
+        temp_len = res['inputs_embeds'].shape[0]
+        if  temp_len> self.query_max_len:
+            raise MaxLengthExceededError(
+                f"Input length {res['inputs_embeds'].shape[0]} exceeds the maximum allowed length of {query_max_len}."
+            )
+        # Get the input embeddings for the padding token, assume pad shape is [1]
+        pad_emb = model.get_input_embeddings()(torch.tensor([self.tokenizer.pad_token_id]).to(model.device)) # Shape: [1, 4096]
+        # Extract current embeddings and im_mask
+        inputs_embeds = res['inputs_embeds']         # Shape: [current_len, 4096]
+        im_mask = res['im_mask']                     # Shape: [current_len]
+        # res.pop('inputs_embeds')
+        res_len = self.query_max_len - temp_len
+        
+        # Expand eos_embedding to the required padding length
+        pad_emb = pad_emb.expand(res_len, -1).to(model.device)  # Shape: [res_len, 4096]
+
+        # Right-pad the inputs_embeds by concatenating eos embeddings
+        padded_inputs_embeds = torch.cat([inputs_embeds, pad_emb], dim=0)  # Shape: [query_max_len, 4096]
+
+        # Create padded attention_mask (extend with zeros)
+        attention_mask = torch.cat([torch.ones(1, temp_len), torch.zeros(1, res_len)], dim=1).to(model.device)  # Shape: [query_max_len]
+        # Right-pad the im_mask with zeros to match the new length
+        padded_im_mask = torch.cat([im_mask, torch.zeros((1, res_len), dtype=torch.bool).to(model.device)], dim=1)  # Shape: [1, query_max_len]
+        padded_target =res['labels'] + [-100] * res_len  # Shape: [1, query_max_len]
+        
+        # Update the res dictionary
+        res['inputs_embeds'] = padded_inputs_embeds
+        res['attention_mask'] = attention_mask
+        res['im_mask'] = padded_im_mask
+        res['labels'] = padded_target
+        return res

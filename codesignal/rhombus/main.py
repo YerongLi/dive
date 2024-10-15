@@ -1,31 +1,27 @@
 def solution(matrix, r):
     n, m = len(matrix), len(matrix[0])
-    # n - r * 2 + 2
-    s = [[0] * (m - 2 * r + 2) for _ in range(n - 2 * r + 2)]
-    for i in range(r * 2):
-        for j in range(r * 2):
-            if abs(i - (r - 1)) + abs(j - (r - 1)) <= r - 1:
-                s[0][0]+= matrix[i][j]
-    for i in range(1, n - 2 * r + 2):
+    s = [[0] * (m - r - r + 2) for _ in range(n - r - r + 2)]
+
+    for ox in range(-( r - 1), r):
+        for oy in range(- (r- 1), r):
+            if abs(ox) + abs(oy) <= r - 1: s[0][0]+= matrix[r - 1 + ox][r - 1 + oy]
+    for i in range(1, n - r - r + 2):
+        cx, cy = r -1 + i, r - 1
         s[i][0] = s[i - 1][0]
-        cx, cy = i + r - 1, r - 1
         for oy in range(-(r - 1), r):
             s[i][0]-= matrix[cx - (r - 1 - abs(oy)) - 1][cy + oy]
             s[i][0]+= matrix[cx + (r - 1 - abs(oy))][cy + oy]
-    for i in range(n - 2 * r + 2):
-        for j in range(1, m - 2 * r + 2):
-            cx = r - 1 + i
-            cy = r - 1 + j
+    for i in range(n - r - r + 2):
+        for j in range(1, n - r - r + 2):
+            cx, cy = r -1 + i, r - 1 + j
             s[i][j] = s[i][j - 1]
-            for ox in range(-(r - 1), r):
+            for ox in range(-( r - 1), r ):
                 s[i][j]-= matrix[cx + ox][cy - (r - 1 - abs(ox)) - 1]
-                s[i][j]+= matrix[cx + ox][cy + (r - 1 - abs(ox)) ]
-    # 3 4,8, 10, 5 
+                s[i][j]+= matrix[cx + ox][cy + (r - 1 - abs(ox))]
     ans = -0x7f7f7f7f
     for row in s:
         ans = max(ans, max(row))
     return ans
-
 def solution2(matrix, r): 
     n, m = len(matrix), len(matrix[0])
     # s[]
