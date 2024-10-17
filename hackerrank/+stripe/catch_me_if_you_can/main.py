@@ -22,12 +22,12 @@ def solutionC(inputs):
                 ans.add(acct)
         else:
             _, chid = line
+
             if chm[chid][1] in frauds:
                 m[chm[chid][0]]-= 1
 
                 if m[chm[chid][0]] / total[chm[chid][0]] < limits[chm[chid][0]]:
                     ans.remove(chm[chid][0])
-
     ans = list(ans)
     ans.sort()
     return ','.join(ans)
