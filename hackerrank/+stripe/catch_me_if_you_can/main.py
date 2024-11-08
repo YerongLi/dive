@@ -112,5 +112,19 @@ inputs = [
 ]
 print(solutionB(inputs))
 
-
+inputs = [
+    'approved,invalid_pin,expired_card',
+    'do_not_honor,stolen_card,lost_card',
+    ['retail,0.8',
+    'venue,0.25'],
+    ['acct_1,retail',
+    'acct_2,retail'],
+    2,
+    ['CHARGE,ch_1,acct_1,100,do_not_honor',
+    'CHARGE,ch_2,acct_1,200,approved',
+    'CHARGE,ch_3,acct_1,300,do_not_honor',
+    'DISPUTE,ch_2',
+    'CHARGE,ch_4,acct_2,400,approved',
+    'CHARGE,ch_5,acct_2,500,lost_card']
+]
 print(solutionC(inputs))

@@ -19,6 +19,8 @@ def solutionD(inputs):
 		else:
 			p = line[2]
 			if t == 'CREATE':
+    			# "2 CREATE p1 m1 100",
+
 				_, _, _ , act, amt = line
 				amt = int(amt)
 				mp[p] = [act, amt]
