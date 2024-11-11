@@ -137,3 +137,9 @@ assert generate(solution(pairs)) == pairs,(
 )
 
 
+assert solution([3,2,3]) == [2, -1, 3]
+assert solution([0,0,0,1]) == [-4, -3, -2, 1]
+assert solution([6,5,5,3,3,1]) == [6, 3, 4, -2, -1, -5]
+assert solution([3,3,4,1,0]) ==  [1, 2, 4, -3, -5]
+
+print(solution([1,1,1,1]))
