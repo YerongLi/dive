@@ -27,7 +27,6 @@ vector<int> solution(const std::vector<int>& pairs)
                 ans[pi[r][1]] = value;
                 value--;
             }
-
         }
         if (value)
         {
