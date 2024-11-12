@@ -1,4 +1,29 @@
-def solution(p):
+def solution(pairs):
+    n = len(pairs)
+    pi = [[x, i] for i, x in enumerate(pairs)]
+    pi.sort()
+    ans = [None] * n
+    r = n
+    value = n
+    for l in range(n):
+        # r should be the first [] that [l] + [r] > 0
+        c, _ = pi[l]
+        while value and r - 1 >= 0 and n - r < c:
+            r-= 1
+            ans[pi[r][1]] = value
+            value-= 1
+        if value:
+            if l >= n - pi[l][0]:
+                ans[pi[l][1]] = value
+            else:
+                ans[pi[l][1]] = -value
+            value-= 1
+        while r - 1 >= 0 and ans[pi[r - 1][1]] and ans[pi[r - 1][1]] + ans[pi[l][1]] > 0:
+            r-= 1
+        if r != n - c:
+            return []
+    return ans 
+def solutionwrong(p):
     n = len(p)
     indices = sorted(range(n), key=lambda i : p[i])
     value = n
@@ -142,4 +167,10 @@ assert solution([0,0,0,1]) == [-4, -3, -2, 1]
 assert solution([6,5,5,3,3,1]) == [6, 3, 4, -2, -1, -5]
 assert solution([3,3,4,1,0]) ==  [1, 2, 4, -3, -5]
 
-print(solution([1,1,1,1]))
+assert solution([1,1,1,1]) == []
+pairs =  [3, 3, 4, 1, 0]
+print(solution(pairs))
+assert solution(pairs) in [
+    [1, 2, 4, -3, -5],
+    [2, 1, 4, -3, -5],
+  ]
