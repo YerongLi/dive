@@ -16,12 +16,13 @@ def solution(pattern, doc):
 	tr = [[0] * 300 for _ in range(N)] 
 	cnt = [0] * N
 	found = [[] for _ in range(N)]
+	index = [[] for _ in range(N)]
 	ne = [0] * N
 	g = [[] for _ in range(N)]
 	tot = 0
 	m = {}
 	def ins(s):
-		global tot
+		nonlocal tot
 		p = 0
 		for c in s:
 			x = ord(c)
@@ -48,23 +49,33 @@ def solution(pattern, doc):
 					q.append(v)
 				else:
 					tr[x][i] = tr[ne[x]][i]
+
 	def query(doc):
 		p = 0
 		for i, c in enumerate(doc):
-			p = tr[p][i]
+			p = tr[p][ord(c)]
 			found[p].append(i)
 
-	# def dfs(x):
-	# 	for v in g[x]:
-	# 		dfs(v)
-	# 		found[x].extend
+	def dfs(x):
+		for v in g[x]:
+			dfs(v)
+			found[x].extend(found[v])
 	for s in l:
 		ins(s)
 	build()
 	query(doc)
+	dfs(0)
 
+	for s in l:
+		index[m[s]] = sorted(x - len(s) + 1 for x in found[m[s]])
+		print(s, m[s], index[m[s]])
 
-def solution(pattern, doc):
+pattern = 'she*he'
+doc = 'hesherheshe'
+solution(pattern,doc)
+exit(0)
+
+def solution1(pattern, doc):
 	tot = 0
 	l = pattern.split('*')
 	N = 1 + sum(len(s) for s in l)
