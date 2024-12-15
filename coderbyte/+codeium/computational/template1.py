@@ -219,60 +219,13 @@ class NaiveGraph:
 
     @classmethod
     def forward(cls):
-        node_queue = [] # 节点队列
-        
-        for node in cls.node_list:
-            # 入度为0的节点入队
-            if node.in_deg == 0:
-                node_queue.append(node)
-
-        while len(node_queue) > 0:
-            node = node_queue.pop()
-            for next_node in node.next:
-                next_node.in_deg -= 1
-                next_node.in_deg_com += 1
-                if next_node.in_deg == 0:
-                    next_node.value = next_node.calculate(next_node)
-                    node_queue.insert(0, next_node)
-
-        for node in cls.node_list:
-            node.in_deg += node.in_deg_com
-            node.in_deg_com = 0
+        raise NotImplementedError("This functionality is not implemented!")
 
 
     @classmethod
     def backward(cls):
-        node_queue = []
-        for node in cls.node_list:
-            if node.out_deg == 0 and not isinstance(
-                    node,
-                    NaiveGraph.Constant,
-            ):
-                node.grad = 1.
-                node_queue.append(node)
-        if len(node_queue) > 1:
-            print('''
-                计算图中的函数是多元输出，自动微分会计算梯度的和，
-                如果要求指定输出的导数，应该是用backward_from_node。
-                ''')
+        raise NotImplementedError("This functionality is not implemented!")
 
-        while len(node_queue) > 0:
-            node = node_queue.pop()
-            for last_node in node.last:
-                last_node.out_deg -= 1
-                last_node.out_deg_com += 1
-                if last_node.out_deg == 0 and not isinstance(
-                        last_node,
-                        NaiveGraph.Constant,
-                ):  # 准备求导
-                    for n in last_node.next:
-                        assert n.operator != None
-                        last_node.grad += n.grad * cls.__deriv(n, last_node)
-                    node_queue.insert(0, last_node)
-
-        for node in cls.node_list:
-            node.out_deg += node.out_deg_com
-            node.out_deg_com = 0
 ## TESTS ##
 
 Constant = NaiveGraph.Constant
@@ -322,31 +275,12 @@ print(f"Value of f(a, b): {print(f_value)}")  # Should print the value of f(a, b
 expected_value = 42.6390573296
 assert isclose(f_value, expected_value, rel_tol=1e-9), \
     f"Test failed: f(a, b) = {f_value}, expected {expected_value}"
+print("Test passed: f(a, b) is close to the expected value.")
 # Step 4: Perform backward propagation
 NaiveGraph.backward()
-def dfda(a, b):
-    """
-    Partial derivative of f(a, b) with respect to a.
-    """
-    return b + 1 / (a + b)
+print(f"Gradient w.r.t a: {a.grad}")  # Should print df/da
+print(f"Gradient w.r.t b: {b.grad}")  # Should print df/db
 
-def dfdb(a, b):
-    """
-    Partial derivative of f(a, b) with respect to b.
-    """
-    return a + 1 / (a + b)
-expected_value = 42.6390573296
-
-expected_a = dfda(a.value, b.value)
-expected_b = dfdb(a.value, b.value)
-
-# Print and assert
-# print(f"Gradient w.r.t a: {a.grad}, Expected: {expected_a}")
-assert isclose(a.grad, expected_a, rel_tol=1e-9), f"Mismatch in df/da: {a.grad} != {expected_a}"
-
-# print(f"Gradient w.r.t b: {b.grad}, Expected: {expected_b}")
-assert isclose(b.grad, expected_b, rel_tol=1e-9), f"Mismatch in df/db: {b.grad} != {expected_b}"
 # Based on forward propagation, c: 42.63906
 # Based on backward propagation, df/da: 4.07143
 # Based on backward propagation, df/db: 10.07143
-print("Test passed: f(a, b) is close to the expected value.")
