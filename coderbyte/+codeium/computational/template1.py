@@ -139,10 +139,8 @@ class NaiveGraph:
     @classmethod
     def __deriv_log(cls, child: Operator, parent: Node):
         # ∂(log(a))/∂a = 1/a
-        if parent is child.last[0]:
-            return 1.0 / parent.value
-        else:
-            raise ValueError("Parent node is not part of the logarithm operation.")
+        raise NotImplementedError("This functionality is not implemented!")
+
     @classmethod
     def __deriv(cls, child: Operator, parent: Node):
         return {
@@ -275,8 +273,30 @@ print(f"Value of f(a, b): {print(f_value)}")  # Should print the value of f(a, b
 expected_value = 42.6390573296
 assert isclose(f_value, expected_value, rel_tol=1e-9), \
     f"Test failed: f(a, b) = {f_value}, expected {expected_value}"
-print("Test passed: f(a, b) is close to the expected value.")
 # Step 4: Perform backward propagation
+def dfda(a, b):
+    """
+    Partial derivative of f(a, b) with respect to a.
+    """
+    return b + 1 / (a + b)
+
+def dfdb(a, b):
+    """
+    Partial derivative of f(a, b) with respect to b.
+    """
+    return a + 1 / (a + b)
+expected_value = 42.6390573296
+
+expected_a = dfda(a.value, b.value)
+expected_b = dfdb(a.value, b.value)
+
+# Print and assert
+# print(f"Gradient w.r.t a: {a.grad}, Expected: {expected_a}")
+assert isclose(a.grad, expected_a, rel_tol=1e-9), f"Mismatch in df/da: {a.grad} != {expected_a}"
+
+# print(f"Gradient w.r.t b: {b.grad}, Expected: {expected_b}")
+assert isclose(b.grad, expected_b, rel_tol=1e-9), f"Mismatch in df/db: {b.grad} != {expected_b}"
+
 NaiveGraph.backward()
 print(f"Gradient w.r.t a: {a.grad}")  # Should print df/da
 print(f"Gradient w.r.t b: {b.grad}")  # Should print df/db
