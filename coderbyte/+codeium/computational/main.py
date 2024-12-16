@@ -57,8 +57,8 @@ class NaiveGraph:
         cls.id_list.clear()
 
     class Constant(Node):
-        def __init__(self, value, name) -> None:
-            super().__init__(name)
+        def __init__(self, value) -> None:
+            super().__init__('constant')
             self.__value = float(value)
 
         def get_value(self):
@@ -279,7 +279,7 @@ Constant = NaiveGraph.Constant
 Variable = NaiveGraph.Variable
 Operator = NaiveGraph.Operator
 
-x = Constant(1, name='x')
+x = Constant(1)
 y = Variable(2, name='y')
 
 add = Operator("add")
@@ -350,3 +350,65 @@ assert isclose(b.grad, expected_b, rel_tol=1e-9), f"Mismatch in df/db: {b.grad} 
 # Based on backward propagation, df/da: 4.07143
 # Based on backward propagation, df/db: 10.07143
 print("Test passed: f(a, b) is close to the expected value.")
+
+# TEST 2
+
+
+graph = NaiveGraph()
+
+NaiveGraph.clear()
+
+# Step 1: Define variables a and b
+a = Variable(4, name="a")
+b = Variable(10, name="b")
+
+# f = exp(a - 3) / (b - 3)
+# Step 2: Construct the computational graph
+# Compute a - 3
+sub_a3 = NaiveGraph.binary_function_frame(a, 3, "sub")
+
+# Compute exp(a - 3)
+exp_sub_a3 = NaiveGraph.unary_function_frame(sub_a3, "exp")
+
+# Compute b - 3
+sub_b3 = NaiveGraph.binary_function_frame(b, 3, "sub")
+
+# Compute f(a, b) = exp(a - 3) / (b - 3)
+f = NaiveGraph.binary_function_frame(exp_sub_a3, sub_b3, "div")
+
+# Step 3: Perform forward propagation
+NaiveGraph.forward()
+
+f_value = f.get_value()
+print(f"Value of f(a, b): {f_value}")  # Should print the value of f(a, b)
+
+def dfda(a, b):
+    """
+    Partial derivative of f(a, b) with respect to a.
+    """
+    return math_exp(a - 3) / (b - 3)
+
+def dfdb(a, b):
+    """
+    Partial derivative of f(a, b) with respect to b.
+    """
+    return -math_exp(a - 3) / ((b - 3) ** 2)
+
+expected_value = math_exp(1) / 7  # exp(4 - 3) / (10 - 3)
+assert isclose(f_value, expected_value, rel_tol=1e-9), \
+    f"Test failed: f(a, b) = {f_value}, expected {expected_value}"
+print("Test passed: f(a, b) is close to the expected value.")
+
+# Step 4: Perform backward propagation
+NaiveGraph.backward()
+expected_a = dfda(a.value, b.value)
+expected_b = dfdb(a.value, b.value)
+
+# Print and assert
+assert isclose(a.grad, expected_a, rel_tol=1e-9), f"Mismatch in df/da: {a.grad} != {expected_a}"
+assert isclose(b.grad, expected_b, rel_tol=1e-9), f"Mismatch in df/db: {b.grad} != {expected_b}"
+
+# Based on forward propagation, f(a, b): exp(1) / 7
+# Based on backward propagation, df/da: exp(1) / 7
+# Based on backward propagation, df/db: -exp(1) / 49
+
