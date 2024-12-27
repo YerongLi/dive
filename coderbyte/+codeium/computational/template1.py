@@ -94,9 +94,7 @@ class NaiveGraph:
 
     class Operator(Variable):
         def __init__(self, operator: str) -> None:
-            super().__init__(0, operator)
-            self.operator = operator
-            self.calculate = NaiveGraph.operator_calculate_table[operator]
+            raise NotImplementedError("This functionality is not implemented!")
 
         def __repr__(self) -> str:
             return self.operator
