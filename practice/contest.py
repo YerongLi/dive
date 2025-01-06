@@ -3,7 +3,7 @@ import os
 import threading
 import time
 import json
-
+import webbrowser
 app = Flask(__name__)
 start_time_file = 'start_time.json'
 countdown_duration = 30 * 60  # 30 minutes in seconds
@@ -97,4 +97,5 @@ if __name__ == '__main__':
     # Save start time and start the shutdown timer in a separate thread
     save_start_time()
     threading.Thread(target=shutdown_system).start()
+    webbrowser.open('http://127.0.0.1:5000')
     app.run(debug=True)
