@@ -2,6 +2,7 @@ import pandas as pd
 
 def solve1(input_list):
     # Your implementation of solve1 goes here
+    
     pass
 
 # Example input list of strings
