@@ -1,47 +1,10 @@
 from collections import defaultdict
 def parse_accept_language(accept_language_header, supported_languages):
-    ans = []
-    accept_language_header = [x.strip() for x in accept_language_header.split(',')]
-    vis = set()
-    m = defaultdict(list)
-    for x in supported_languages:
-        m[x.split('-')[0]].append(x)
-    supported_languages_set = set(supported_languages)
-    for header in accept_language_header:
-        if header == '*':
-            for x in supported_languages:
-                if x not in vis:
-                    ans.append(x)
-                    vis.add(x)
-        elif len(header.split('-')) != 2:
-            for x in m[header]: 
-                if x not in vis: 
-                    ans.append(x)
-                    vis.add(x)
-
-        elif header in supported_languages_set and header not in vis:
-            ans.append(header)
-            vis.add(header)
-    # print(ans)
-    return ans
+    pass
 def part4(accept_language_header, supported_languages):
-    ans = []
-    accept_language_header = [x.strip().split(';') for x in accept_language_header.split(',')]
-    accept_language_header = {a : float(b[2:]) for a, b in accept_language_header }
-
-    for i, x in enumerate(supported_languages):
-        if x in accept_language_header:
-            ans.append([x, accept_language_header[x], i])
-        elif x.split('-')[0] in accept_language_header:
-            ans.append([x, accept_language_header[x.split('-')[0]], i])
-        elif '*' in accept_language_header:
-            ans.append([x, accept_language_header['*'], i])
-    ans.sort(key = lambda x : [-x[1], x[2]])
-    ans = [x[0] for x in ans]
+    pass
 
 
-
-    return ans
 # Test case 1: Matching both languages in descending order of preference
 assert parse_accept_language(
     "en-US, fr-CA, fr-FR", ["fr-FR", "en-US"]
