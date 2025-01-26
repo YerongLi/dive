@@ -1,17 +1,7 @@
 import pandas as pd
 from collections import defaultdict
 def register_receivables(input_string):
-    l = input_string.splitlines()[1:]
-    l = [x.split(',') for x in l]
-    ans = defaultdict(int)
-
-    for customer_id,merchant_id,payout_date,card_type,amount in l:
-        ans[(merchant_id,payout_date,card_type)]+= int(amount)
-    print(ans)
-    ansstr = [f'{merchant_id},{payout_date},{ans[(merchant_id,card_type,payout_date,amount)]}' for merchant_id,payout_date,card_type in ans]
-    ansstr = '\n'.join(ans)
-    ansstr = 'merchant_id,card_type,payout_date,amount\n' + ansstr
-
+    pass
 def update_receivables(registered_csv, contracts_csv):
     pass
 

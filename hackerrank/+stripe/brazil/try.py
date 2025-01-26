@@ -1,9 +1,37 @@
+from collections import defaultdict
 import pandas as pd
 def register_receivables(input_string):
-    
-def update_receivables(registered_csv, contracts_csv):
-    pass
+    l = input_string.splitlines()[1:]
+    l = [x.split(',') for x in l]
+    ans = defaultdict(int)
 
+    for customer_id,merchant_id,payout_date,card_type,amount in l:
+        ans[(merchant_id,payout_date,card_type)]+= int(amount)
+    print(ans)
+    keys = list(ans.keys())
+    ansstr = [f'{merchant_id},{card_type},{payout_date},{ans[(merchant_id,payout_date,card_type)]}' for merchant_id,payout_date,card_type in keys]
+    ansstr = '\n'.join(ansstr)
+    ansstr = 'merchant_id,card_type,payout_date,amount\n' + ansstr
+    return ansstr
+def update_receivables(registered_csv, contracts_csv):
+    registered = registered_csv.splitlines()[1:]
+    registered = [x.split(',') for x in registered]
+    contracts = contracts_csv.splitlines()[1:]
+    contracts = [x.split(',') for x in contracts]
+
+    ansdict = defaultdict(int)
+    # customer_id,merchant_id,payout_date,card_type,amount
+    for customer_id,merchant_id,payout_date,card_type,amount in registered:
+        ansdict[(merchant_id,card_type,payout_date)]+= int(amount)
+    for contract_id,merchant_id,payout_date,card_type,amount in constracts:
+        ansdict[(contract_id,card_type,payout_date)]+= int(amount)
+        ansdict[(merchant_id,card_type,payout_date)]-= int(amount)
+    keys = list(ans.keys())
+    for k in keys: if ansdict[k] == 0: del ansdict
+    ans = [f'{id_},{card_type},{payout_date},{ansdict[(id_,card_type,payout_date)]}' for id_,card_type,payout_date in ansdict]
+    ans = '\n'.join(ans)
+    ans = 'id,card_type,payout_date,amount\n' + ans
+    return ans 
 # Tests
 print("Testing register_receivables...")
 # Test Case 1: solve1
