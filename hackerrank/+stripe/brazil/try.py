@@ -21,14 +21,19 @@ def update_receivables(registered_csv, contracts_csv):
 
     ansdict = defaultdict(int)
     # customer_id,merchant_id,payout_date,card_type,amount
-    for customer_id,merchant_id,payout_date,card_type,amount in registered:
+    for merchant_id,card_type,payout_date,amount in registered:
         ansdict[(merchant_id,card_type,payout_date)]+= int(amount)
-    for contract_id,merchant_id,payout_date,card_type,amount in constracts:
+    for contract_id,merchant_id,payout_date,card_type,amount in contracts:
         ansdict[(contract_id,card_type,payout_date)]+= int(amount)
         ansdict[(merchant_id,card_type,payout_date)]-= int(amount)
-    keys = list(ans.keys())
-    for k in keys: if ansdict[k] == 0: del ansdict
-    ans = [f'{id_},{card_type},{payout_date},{ansdict[(id_,card_type,payout_date)]}' for id_,card_type,payout_date in ansdict]
+
+    keys = list(ansdict.keys())
+    for k in keys: 
+        if ansdict[k] == 0: del ansdict[k]
+    keys = list(ansdict.keys())
+        
+    keys.sort(key = lambda x: x[0], reverse=False)
+    ans = [f'{id_},{card_type},{payout_date},{ansdict[(id_,card_type,payout_date)]}' for id_,card_type,payout_date in keys]
     ans = '\n'.join(ans)
     ans = 'id,card_type,payout_date,amount\n' + ans
     return ans 
