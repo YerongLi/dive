@@ -1,15 +1,14 @@
 def calculate_shipping_cost1(order, shipping_cost):
-    cost_dict = {}
+    m = {}
     for country in shipping_cost:
-        cost_dict[country] = {}
-        for d in shipping_cost[country]:
-            cost_dict[country][d['product']] = d['cost']
+        m[country] = {}
+        for item in shipping_cost[country]:
+            m[country][item['product']] = item['cost']
     ans = 0
     country = order['country']
-    for item in order['items']:
-        ans+= cost_dict[country][item['product']]* item['quantity']
+    for x in order['items']:
+        ans+= m[country][x['product']] * x['quantity']
     return ans
-
 # 测试用例
 order_us = {
     "country": "US",
@@ -46,36 +45,23 @@ print("calculate_shipping_cost1:All test cases passed!")
 
 
 def calculate_shipping_cost2(order, shipping_cost):
-    from bisect import bisect_left
-    inf = 0x3f3f3f3f
-    cost_dict = {}
-    # [country][product] list
-    ans = 0
+    m = {}
     for country in shipping_cost:
-        cost_dict[country] = {}
-        for product in shipping_cost[country]:
-            cost_dict[country][product['product']] = [[x['maxQuantity'] if x['maxQuantity'] else inf, x] for x in product['costs']]
-            cost_dict[country][product['product']].sort()
-            acc = 0 # base
-            for i, x in enumerate(cost_dict[country][product['product']]):
-                # x[1] cache
-                cache = x[1]
-                cost_dict[country][product['product']][i].append(acc)
-                if cache['maxQuantity']: acc+= cache['cost'] * (cache['maxQuantity'] - cache['minQuantity'])
-
-
-    # bisect_left()
+        m[country] = {}
+        for item in shipping_cost[country]:
+            m[country][item['product']] = item['costs']
+    
     country = order['country']
+    ans = 0
     for item in order['items']:
-        q = item['quantity']
         name = item['product']
-        l = cost_dict[country][name]
-        i = bisect_left(l, [q, None])
-        # l[i]
-        cache = l[i][1]
-        print(name, l[i], l[i][2] + (q - max(1, cache['minQuantity']) + 1) * cache['cost'])
-        ans+= l[i][2] + (q - max(1, cache['minQuantity']) + 1) * cache['cost']
-    print(ans)
+        n = item['quantity']
+        for x in m[country][name]:
+
+            if x['maxQuantity'] and x['maxQuantity'] < n:
+                ans+= x['cost'] * (x['maxQuantity'] - max(1, x['minQuantity']) + 1)
+            elif x['minQuantity'] <= n:
+                ans+= x['cost'] * (n  - max(1, x['minQuantity'] )+ 1)
     return ans
 
 
@@ -159,7 +145,30 @@ assert calculate_shipping_cost2(order_ca, shipping_cost) == 20200, "Test case fo
 print("calculate_shipping_cost2: All test cases passed!")
 
 def calculate_shipping_cost3(order, shipping_cost):
-    pass
+    m = {}
+    for country in shipping_cost:
+        m[country] = {}
+        for item in shipping_cost[country]:
+            m[country][item['product']] = item['costs']
+    
+    country = order['country']
+    ans = 0
+    for item in order['items']:
+        name = item['product']
+        n = item['quantity']
+        for x in m[country][name]:
+            
+            if x['type'] == 'incremental':
+                if x['maxQuantity'] and n > x['maxQuantity']:
+                    ans+= x['cost'] * (x['maxQuantity'] - max(x['minQuantity'], 1) + 1)
+                elif n >= x['minQuantity']:
+                    ans+= x['cost'] * (n - max(x['minQuantity'], 1) + 1)
+            else:
+                if x['maxQuantity'] and n > x['maxQuantity']:
+                    ans+= x['cost']
+                elif n >= x['minQuantity']:
+                    ans+= x['cost']
+    return ans
 shipping_cost = {
     "US": [
         {
