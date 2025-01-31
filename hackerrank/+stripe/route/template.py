@@ -1,5 +1,3 @@
-from collections import *
-inf = 0x3f3f3f3f
 def solve1(inputString, source, target, method):
     pass
 

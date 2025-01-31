@@ -1,19 +1,17 @@
 from collections import *
-inf = 0x3f3f3f3f
 def solve1(inputString, source, target, method):
     g = defaultdict(list)
-    cg = defaultdict(list)
     mg = defaultdict(list)
+    cg = defaultdict(list)
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
-            g[ss].append(tt)
-            cg[ss].append(int(cc))
-            mg[ss].append(mm)
-    for i in range(len(g[source])):
-        if g[source][i] == target and mg[source][i] == method:
-            return cg[source][i]
-
+        for l in inputString.split(','):
+            xx, vv, mm, cc = l.split(':')
+            cc = int(cc)
+            g[xx].append(vv)
+            mg[xx].append(mm)
+            cg[xx].append(cc)
+    for i, v in enumerate(g[source]):
+        if mg[source][i] == method and v == target: return cg[source][i]
     return 'Route not found'
 
 def solve2(inputString, source, target):
@@ -25,35 +23,39 @@ def solve2(inputString, source, target):
     rmg = defaultdict(list)
     rcg = defaultdict(list)
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
+        for l in inputString.split(','):
+            xx, vv, mm, cc = l.split(':')
             cc = int(cc)
-            g[ss].append(tt)
-            mg[ss].append(mm)
-            cg[ss].append(cc)
+            g[xx].append(vv)
+            mg[xx].append(mm)
+            cg[xx].append(cc)
 
-            rg[tt].append(ss)
-            rmg[tt].append(mm)
-            rcg[tt].append(cc)  
-    ans = 0x3f3f3f3f         
-    for i in range(len(g[source])):
-        if g[source][i] == target:
+
+            rg[vv].append(xx)
+            rmg[vv].append(mm)
+            rcg[vv].append(cc)
+
+    inf = 0x3f3f3f3f
+    ans = inf
+    for i, v in enumerate(g[source]):
+        if v == target: 
             ans = cg[source][i]
             method = mg[source][i]
             route = f'{source} -> {target}'
-    if ans == 0x3f3f3f3f:
+            break
 
-        targetm = {x : i for i, x in enumerate(rg[target])}
+    if ans == inf:
+        parents = {v : j for j, v in enumerate(rg[target])}
         for i, v in enumerate(g[source]):
-            if v in targetm:
-                j = targetm[v]
-                method = mg[source][i] if rmg[target][j] == mg[source][i] else f'{mg[source][i]} -> {rmg[target][j]}' 
-                route = f'{source} -> {v} -> {target}'
+            if v in parents:
+                j = parents[v]
                 ans = cg[source][i] + rcg[target][j]
-    if ans != 0x3f3f3f3f:
-        return {'cost' : ans, 'route': route, 'method': method}
+                method = mg[source][i] if mg[source][i] == rmg[target][j] else f'{mg[source][i]} -> {rmg[target][j]}' 
+                route = ' -> '.join([source, v, target])
+                break
+    if ans != inf:
+        return {'cost': ans, 'method': method, 'route': route}
     return 'Route not found'
-        
 
 def solve3(inputString, source, target):
     g = defaultdict(list)
@@ -64,35 +66,40 @@ def solve3(inputString, source, target):
     rmg = defaultdict(list)
     rcg = defaultdict(list)
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
+        for l in inputString.split(','):
+            xx, vv, mm, cc = l.split(':')
             cc = int(cc)
-            g[ss].append(tt)
-            mg[ss].append(mm)
-            cg[ss].append(cc)
+            g[xx].append(vv)
+            mg[xx].append(mm)
+            cg[xx].append(cc)
 
-            rg[tt].append(ss)
-            rmg[tt].append(mm)
-            rcg[tt].append(cc)  
-    ans = 0x3f3f3f3f         
-    for i in range(len(g[source])):
-        if g[source][i] == target and cg[source][i] < ans:
-            ans = cg[source][i]
+
+            rg[vv].append(xx)
+            rmg[vv].append(mm)
+            rcg[vv].append(cc)
+
+    inf = 0x3f3f3f3f
+    ans = inf
+    for i, v in enumerate(g[source]):
+        if v == target:
+            newcost = cg[source][i]
+            if newcost >= ans: continue
+            ans = newcost
             method = mg[source][i]
             route = f'{source} -> {target}'
 
-
-    targetm = {x : i for i, x in enumerate(rg[target])}
-    for i, v in enumerate(g[source]):
-        if v in targetm:
-            j = targetm[v]
-            newcost = cg[source][i] + rcg[target][j]
-            if newcost < ans:
-                method = mg[source][i] if rmg[target][j] == mg[source][i] else f'{mg[source][i]} -> {rmg[target][j]}' 
-                route = f'{source} -> {v} -> {target}'
+    if ans == inf:
+        parents = {v : j for j, v in enumerate(rg[target])}
+        for i, v in enumerate(g[source]):
+            if v in parents:
+                j = parents[v]
+                newcost = cg[source][i] + rcg[target][j]
+                if newcost >= ans: continue
                 ans = newcost
-    if ans != 0x3f3f3f3f:
-        return {'cost' : ans, 'route': route, 'method': method}
+                method = mg[source][i] if mg[source][i] == rmg[target][j] else f'{mg[source][i]} -> {rmg[target][j]}' 
+                route = ' -> '.join([source, v, target])
+    if ans != inf:
+        return {'cost': ans, 'method': method, 'route': route}
     return 'Route not found'
 
 def test_solve1():
