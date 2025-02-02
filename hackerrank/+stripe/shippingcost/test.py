@@ -1,14 +1,18 @@
 def calculate_shipping_cost1(order, shipping_cost):
     m = {}
-    for country in shipping_cost:
-        m[country] = {}
-        for item in shipping_cost[country]:
-            m[country][item['product']] = item['cost']
+    for c in shipping_cost:
+        m[c] = {}
+        for item in shipping_cost[c]:
+            name = item['product']
+            m[c][name] = item['cost']
     ans = 0
-    country = order['country']
-    for x in order['items']:
-        ans+= m[country][x['product']] * x['quantity']
+    c = order['country']
+    for item in order['items']:
+        name = item['product']
+        n = item['quantity']
+        ans+= n * m[c][name]
     return ans
+
 # 测试用例
 order_us = {
     "country": "US",
@@ -46,22 +50,22 @@ print("calculate_shipping_cost1:All test cases passed!")
 
 def calculate_shipping_cost2(order, shipping_cost):
     m = {}
-    for country in shipping_cost:
-        m[country] = {}
-        for item in shipping_cost[country]:
-            m[country][item['product']] = item['costs']
-    
-    country = order['country']
+    for c in shipping_cost:
+        m[c] = {}
+        for item in shipping_cost[c]:
+            name = item['product']
+            m[c][name] = item['costs']
     ans = 0
+    c = order['country']
     for item in order['items']:
         name = item['product']
         n = item['quantity']
-        for x in m[country][name]:
-
-            if x['maxQuantity'] and x['maxQuantity'] < n:
-                ans+= x['cost'] * (x['maxQuantity'] - max(1, x['minQuantity']) + 1)
-            elif x['minQuantity'] <= n:
-                ans+= x['cost'] * (n  - max(1, x['minQuantity'] )+ 1)
+        for x in m[c][name]:
+            upper, lower = x['maxQuantity'], x['minQuantity']
+            if upper and n > upper:
+                ans+= x['cost'] * (upper - max(lower, 1) + 1)
+            elif n >= lower:
+                ans+= x['cost'] * (n - max(lower, 1) + 1)
     return ans
 
 
@@ -146,27 +150,25 @@ print("calculate_shipping_cost2: All test cases passed!")
 
 def calculate_shipping_cost3(order, shipping_cost):
     m = {}
-    for country in shipping_cost:
-        m[country] = {}
-        for item in shipping_cost[country]:
-            m[country][item['product']] = item['costs']
-    
-    country = order['country']
+    for c in shipping_cost:
+        m[c] = {}
+        for item in shipping_cost[c]:
+            name = item['product']
+            m[c][name] = item['costs']
     ans = 0
+    c = order['country']
     for item in order['items']:
         name = item['product']
         n = item['quantity']
-        for x in m[country][name]:
-            
+        for x in m[c][name]:
+            upper, lower = x['maxQuantity'], x['minQuantity']
             if x['type'] == 'incremental':
-                if x['maxQuantity'] and n > x['maxQuantity']:
-                    ans+= x['cost'] * (x['maxQuantity'] - max(x['minQuantity'], 1) + 1)
-                elif n >= x['minQuantity']:
-                    ans+= x['cost'] * (n - max(x['minQuantity'], 1) + 1)
+                if upper and n > upper:
+                    ans+= x['cost'] * (upper - max(lower, 1) + 1)
+                elif n >= lower:
+                    ans+= x['cost'] * (n - max(lower, 1) + 1)
             else:
-                if x['maxQuantity'] and n > x['maxQuantity']:
-                    ans+= x['cost']
-                elif n >= x['minQuantity']:
+                if n >= lower:
                     ans+= x['cost']
     return ans
 shipping_cost = {

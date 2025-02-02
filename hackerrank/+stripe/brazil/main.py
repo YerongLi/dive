@@ -1,42 +1,44 @@
-from collections import defaultdict
 import pandas as pd
+from collections import *
 def register_receivables(input_string):
     l = input_string.splitlines()[1:]
-    l = [x.split(',') for x in l]
-    ans = defaultdict(int)
-
-    for customer_id,merchant_id,payout_date,card_type,amount in l:
-        ans[(merchant_id,payout_date,card_type)]+= int(amount)
-    print(ans)
-    keys = list(ans.keys())
-    ansstr = [f'{merchant_id},{card_type},{payout_date},{ans[(merchant_id,payout_date,card_type)]}' for merchant_id,payout_date,card_type in keys]
+    m = defaultdict(int)
+    for x in l:
+        customer_id,merchant_id,payout_date,card_type,amount = x.split(',')
+        m[(merchant_id,payout_date,card_type)]+= int(amount)
+    ansstr = [f'{merchant_id},{card_type},{payout_date},{m[(merchant_id,payout_date,card_type)]}' for merchant_id,payout_date,card_type in m]
     ansstr = '\n'.join(ansstr)
-    ansstr = 'merchant_id,card_type,payout_date,amount\n' + ansstr
+
+    ansstr = "merchant_id,card_type,payout_date,amount\n"+ansstr
+
     return ansstr
+
 def update_receivables(registered_csv, contracts_csv):
-    registered = registered_csv.splitlines()[1:]
-    registered = [x.split(',') for x in registered]
-    contracts = contracts_csv.splitlines()[1:]
-    contracts = [x.split(',') for x in contracts]
+    l = registered_csv.splitlines()[1:]
+    m = defaultdict(int)
 
-    ansdict = defaultdict(int)
-    # customer_id,merchant_id,payout_date,card_type,amount
-    for merchant_id,card_type,payout_date,amount in registered:
-        ansdict[(merchant_id,card_type,payout_date)]+= int(amount)
-    for contract_id,merchant_id,payout_date,card_type,amount in contracts:
-        ansdict[(contract_id,card_type,payout_date)]+= int(amount)
-        ansdict[(merchant_id,card_type,payout_date)]-= int(amount)
+#     registered_receivables_csv1 = """merchant_id,card_type,payout_date,amount
+# merchantA,Visa,2022-01-05,500
+# merchantB,MasterCard,2022-01-06,1000"""
+# contracts_csv1 = """contract_id,merchant_id,payout_date,card_type,amount
+# contract1,merchantA,2022-01-05,Visa,500"""
+# expected_output1 = """id,card_type,payout_date,amount
+# contract1,Visa,2022-01-05,500
+# merchantB,MasterCard,2022-01-06,1000"""
+    for x in l:
+        merchant_id,card_type,payout_date,amount = x.split(',')
+        m[(merchant_id,payout_date,card_type)]+= int(amount)
+    l = contracts_csv.splitlines()[1:]
+    for x in l:
+        contract_id,merchant_id,payout_date,card_type,amount = x.split(',')
+        m[(merchant_id, payout_date, card_type)]-= int(amount)
+        m[(contract_id, payout_date, card_type)]= int(amount)
 
-    keys = list(ansdict.keys())
-    for k in keys: 
-        if ansdict[k] == 0: del ansdict[k]
-    keys = list(ansdict.keys())
-        
-    keys.sort(key = lambda x: x[0], reverse=False)
-    ans = [f'{id_},{card_type},{payout_date},{ansdict[(id_,card_type,payout_date)]}' for id_,card_type,payout_date in keys]
-    ans = '\n'.join(ans)
-    ans = 'id,card_type,payout_date,amount\n' + ans
-    return ans 
+    ansstr = [f'{merchant_id},{card_type},{payout_date},{m[(merchant_id,payout_date,card_type)]}' for merchant_id,payout_date,card_type in m if m[(merchant_id,payout_date,card_type)] != 0 ]
+    ansstr.sort()
+    ansstr = '\n'.join(ansstr)
+    ansstr = "id,card_type,payout_date,amount\n"+ansstr
+    return ansstr
 # Tests
 print("Testing register_receivables...")
 # Test Case 1: solve1
@@ -48,8 +50,8 @@ cust4,merchantA,2021-12-30,Visa,50"""
 expected_output1 = """merchant_id,card_type,payout_date,amount
 merchantA,Visa,2021-12-30,400
 merchantB,MasterCard,2021-12-31,300"""
-result1 = register_receivables(input1)
-assert result1 == expected_output1, f"Test Case 1 Failed: {result1}"
+result = register_receivables(input1)
+assert result == expected_output1, f"Test Case 1 Failed: {result}"
 
 # Test Case 2: solve1
 input2 = """customer_id,merchant_id,payout_date,card_type,amount
@@ -77,8 +79,8 @@ contract1,merchantA,2022-01-05,Visa,500"""
 expected_output1 = """id,card_type,payout_date,amount
 contract1,Visa,2022-01-05,500
 merchantB,MasterCard,2022-01-06,1000"""
-result1 = update_receivables(registered_receivables_csv1, contracts_csv1)
-assert result1 == expected_output1, f"Test Case 1 Failed: {result1}"
+result = update_receivables(registered_receivables_csv1, contracts_csv1)
+assert result == expected_output1, f"Test Case 1 Failed: {result}"
 
 # Test Case 2: update_receivables
 registered_receivables_csv2 = """merchant_id,card_type,payout_date,amount
