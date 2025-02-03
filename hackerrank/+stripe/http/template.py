@@ -1,43 +1,9 @@
 from collections import defaultdict
 def parse_accept_language(accept_language_header, supported_languages):
-    accept_language_header = [x.strip()  for x in accept_language_header.split(',')]
-    m = {}
-    for i, x in enumerate(accept_language_header):
-        m[x] = i
-    inf = 0x7f7f7f7f
-    ans = [[inf, x] for x in supported_languages]
-    for i, (_ , x ) in enumerate(ans):
-        if x in m:
-            ans[i][0] = m[x]
-        elif x.split('-')[0] in m:
-            ans[i][0] = m[x.split('-')[0]]
-        elif '*' in m:
-            ans[i][0] = m['*']
-
-    ans.sort()
-    ans = [x for o, x in ans if o != inf]
-    return ans
+    pass
 def part4(accept_language_header, supported_languages):
-    
-    accept_language_header = [x.strip()  for x in accept_language_header.split(',')]
-    m = {}
-    for i, x in enumerate(accept_language_header):
-        a, q = x.split(';')
-        q = float(q[2:])
-        m[a] = q
-    inf = 0x7f7f7f7f
-    ans = [[inf, x] for x in supported_languages]
-    for i, (_ , x ) in enumerate(ans):
-        if x in m:
-            ans[i][0] = m[x]
-        elif x.split('-')[0] in m:
-            ans[i][0] = m[x.split('-')[0]]
-        elif '*' in m:
-            ans[i][0] = m['*']
+    pass
 
-    ans.sort(reverse=True)
-    ans = [x for o, x in ans if o != inf]
-    return ans
 
 
     # return ans
