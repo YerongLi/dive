@@ -1,35 +1,10 @@
 import pandas as pd
-from collections import *
+from collections import defaultdict
 def register_receivables(input_string):
-    l = input_string.splitlines()[1:]
-    m = defaultdict(int)
-    for x in l:
-        customer_id,merchant_id,payout_date,card_type,amount = x.split(',')
-        amount = int(amount)
-        m[(merchant_id,payout_date,card_type)]+= amount
-    ansstr = [f'{merchant_id},{card_type},{payout_date},{m[(merchant_id,payout_date,card_type)]}' for merchant_id,payout_date,card_type in m]
-    ansstr = "merchant_id,card_type,payout_date,amount\n" + '\n'.join(ansstr)
-    return ansstr
-    # for merchant_id,payout_date,card_type in m:
-
+    fo
 def update_receivables(registered_csv, contracts_csv):
-    l = registered_csv.splitlines()[1:]
-    m = defaultdict(int)
-    for x in l:
-        merchant_id,card_type,payout_date,amount = x.split(',')
-        amount = int(amount)
-        m[(merchant_id,payout_date,card_type)]+= amount
-    l = contracts_csv.splitlines()[1:]
-    for x in l:
-        contract_id,merchant_id,payout_date,card_type,amount = x.split(',')
-        amount = int(amount)
-        m[(merchant_id,payout_date,card_type)]-= amount
-        m[(contract_id,payout_date,card_type)]+= amount
-    ansstr = [f'{merchant_id},{card_type},{payout_date},{m[(merchant_id,payout_date,card_type)]}' \
-    for merchant_id,payout_date,card_type in m if m[(merchant_id,payout_date,card_type)] != 0]
-    ansstr.sort()
-    ansstr = "id,card_type,payout_date,amount\n" + '\n'.join(ansstr)
-    return ansstr
+    pass
+
 # Tests
 print("Testing register_receivables...")
 # Test Case 1: solve1
