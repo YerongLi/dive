@@ -70,24 +70,8 @@ def find_best_removal_time(log):
     return ansi
 
 def get_best_removal_times(file_contents):
-    logs = []
-    current_log = []
-    inside_log = False
+    pass
 
-    for line in file_contents.splitlines():
-        for token in line.split():
-            if token == "BEGIN":
-                if inside_log:
-                    current_log = []
-                inside_log = True
-            elif token == "END":
-                if inside_log and current_log:
-                    logs.append(' '.join(current_log))
-                inside_log = False
-            elif inside_log:
-                current_log.append(token)
-    best_times = [find_best_removal_time(log) for log in logs]
-    return best_times
 # Test cases for 1a
 assert compute_penalty("0 0 1 0", 0) == 3, "Test case 1a-1 failed"
 assert compute_penalty("0 0 1 0", 4) == 1, "Test case 1a-2 failed"
