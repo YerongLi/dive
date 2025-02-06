@@ -1,25 +1,11 @@
 # Define the function
 def get_user_features1(user, features):
-    ans = []
-    for feature in features:
-        # abest even
-        if 'locations' in feature and user['location'] not in feature['locations']: continue
-        if 'abTest' in feature and feature['abTest'] and user['id'] %2 == 1: continue
-        ans.append(feature['id']) 
-    return ans
+    pass
 def get_user_features2(user, features):
-    ans = []
-    for feature in features:
-        name = feature['id']
-        if 'locations' in feature and feature['locations'] and user['location'] not in feature['locations']: continue
-        if 'optOut' in user and name in user['optOut']: continue
-        if 'optIn' in user and name in user['optIn']:
-            ans.append(name)
-            continue
-        if 'abTest' in feature and feature['abTest'] and user['id'] %2 == 1: continue
-        ans.append(name)
-    print(ans)
-    return ans
+    pass
+
+def get_user_features3(user, features):
+    pass
 # Define test data for users and features
 users = [
     {"id": 0, "name": "eva", "location": "US"},
@@ -78,3 +64,33 @@ for user in users:
     assert active_features == expected_results[user["id"]], f"Test failed for {user['name']} (id={user['id']})"
 
 print("PART 2: All tests passed!")
+
+# Test data with optIn, optOut, and incompatibilities
+users = [
+    {"id": 0, "name": "eva", "location": "US", "optIn": ["annual_sale"]},
+    {"id": 1, "name": "tess", "location": "US", "optIn": ["annual_sale"]},
+    {"id": 2, "name": "rahool", "location": "CA", "optOut": ["enhanced_comments", "canada_promotion"]},
+    {"id": 3, "name": "amanda", "location": "CA", "optIn": ["lunar_sale"]}
+]
+
+features = [
+    {"id": "annual_sale", "locations": ["US"], "abTest": True, "priority": 5},
+    {"id": "enhanced_comments", "locations": None, "abTest": True, "priority": 2},
+    {"id": "canada_promotion", "locations": ["CA"], "abTest": False, "priority": 3},
+    {"id": "lunar_sale", "incompatible": ["annual_sale"], "priority": 10},
+    {"id": "app_redesign", "incompatible": ["lunar_sale", "enhanced_comments"], "priority": 15, "abTest": True}
+]
+
+# Expected results
+expected_results = {
+    0: ["app_redesign", "annual_sale"],  # eva opts in for "annual_sale", app_redesign wins due to priority
+    1: ["annual_sale"],  # tess opts in for "annual_sale"
+    2: ["app_redesign"],  # rahool gets "app_redesign" due to priority, opts out of others
+    3: ["lunar_sale", "canada_promotion"]  # amanda opts in for "lunar_sale", allowing it over conflicts
+}
+
+# Run assertions
+for user in users:
+    active_features = get_user_features3(user, features)
+    assert set(active_features) == set(expected_results[user["id"]]), f"Test failed for {user['name']} (id={user['id']})"
+print("PART 3: All tests passed!")
