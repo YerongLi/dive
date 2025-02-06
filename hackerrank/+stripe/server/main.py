@@ -1,13 +1,14 @@
 def compute_penalty(log, remove_at):
     log = log.split()
-    n = len(log)
-    ans = 0
+    total1 = log.count('1')
+    total0 = log.count('0')
+    one, zero = 0, 0
     for i in range(remove_at):
-        if log[i] == '1': ans+= 1
-    for i in range(remove_at, n):
-        if log[i] == '0': ans+= 1
-    return ans
-
+        if log[i] == '1':
+            one+= 1
+        else:
+            zero+= 1
+    return one+ total0-zero
 def find_best_removal_time1(log):
     log = log.split()
     n = len(log)
@@ -52,46 +53,39 @@ def find_best_removal_time2(log):
     return best_time
 
 def find_best_removal_time(log):
-    log = log.split()
-    n = len(log)
-    s = [0] * (n + 1)
-    for i in range(n):
-        s[i + 1] = s[i] + (1 if log[i] == '1' else 0)
-    ans = 0x7f7f7f7f 
-    ansi = None
+    n = len(log.split())
+    ans = 0x7f7f7f7f
+    ansi = {}
     for i in range(n + 1):
-        # after hour i
-        newcost = s[i] + (n - i - (s[n] - s[i]))
-        # print(i, newcost)
-        if ans > newcost:
-            ansi = i
+        newcost = compute_penalty(log, i)
+        if newcost < ans:
             ans = newcost
-    print(ansi, ans, 'ans')
-    return ansi
+            ansi = {i}
+        elif newcost == ans:
+            ansi.add(i) 
+    return next(iter(ansi))
+
 
 def get_best_removal_times(file_contents):
-    logs = []
-    current_log = []
-    inside_log = False
+    begin = False
+    log = file_contents.split()
+    l = []
+    ans = []
+    for x in log:
+        if x == 'BEGIN':
+            begin = True
+            l.clear()
+        elif x == 'END':
+            ans.append(find_best_removal_time(' '.join(l)))
+            begin = False
+        elif begin:
+            l.append(x)
+    return ans
 
-    for line in file_contents.splitlines():
-        for token in line.split():
-            if token == "BEGIN":
-                if inside_log:
-                    current_log = []
-                inside_log = True
-            elif token == "END":
-                if inside_log and current_log:
-                    logs.append(' '.join(current_log))
-                inside_log = False
-            elif inside_log:
-                current_log.append(token)
-    best_times = [find_best_removal_time(log) for log in logs]
-    return best_times
 # Test cases for 1a
 assert compute_penalty("0 0 1 0", 0) == 3, "Test case 1a-1 failed"
 assert compute_penalty("0 0 1 0", 4) == 1, "Test case 1a-2 failed"
-
+print('Test All passed for Part 1a')
 # Test cases for 1b
 test_cases = [
     "0 0 1 1",
@@ -106,6 +100,8 @@ test_cases = [
     "0 0 0 1 0 0 0 1 0 0 0",
     "1 1 1 0 1 1 1 0 1 1 1"
 ]
+print('Test All passed for Part 1b')
+
 
 for log in test_cases:
     assert find_best_removal_time(log) in find_best_removal_time1(log), f"Test case failed for log: {log}"
@@ -114,6 +110,7 @@ for log in test_cases:
 # Test cases for 2a
 file_contents = "BEGIN BEGIN \nBEGIN 1 1 BEGIN 0 0\n END 1 1 BEGIN"
 assert get_best_removal_times(file_contents) == [2], "Test case 2a-1 failed"
+print('Test All passed for Part 2b')
 
 print("All tests passed!")
 

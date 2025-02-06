@@ -52,7 +52,7 @@ def get_best_removal_times(file_contents):
 # Test cases for 1a
 assert compute_penalty("0 0 1 0", 0) == 3, "Test case 1a-1 failed"
 assert compute_penalty("0 0 1 0", 4) == 1, "Test case 1a-2 failed"
-
+print('Test All passed for Part 1a')
 # Test cases for 1b
 test_cases = [
     "0 0 1 1",
@@ -67,6 +67,8 @@ test_cases = [
     "0 0 0 1 0 0 0 1 0 0 0",
     "1 1 1 0 1 1 1 0 1 1 1"
 ]
+print('Test All passed for Part 1b')
+
 
 for log in test_cases:
     assert find_best_removal_time(log) in find_best_removal_time1(log), f"Test case failed for log: {log}"
@@ -75,6 +77,7 @@ for log in test_cases:
 # Test cases for 2a
 file_contents = "BEGIN BEGIN \nBEGIN 1 1 BEGIN 0 0\n END 1 1 BEGIN"
 assert get_best_removal_times(file_contents) == [2], "Test case 2a-1 failed"
+print('Test All passed for Part 2b')
 
 print("All tests passed!")
 
