@@ -53,30 +53,38 @@ def find_best_removal_time2(log):
     return best_time
 
 def find_best_removal_time(log):
-    n = len(log.split())
+    log = log.split()
+    n = len(log)
+    totalone = log.count('1')
+    totalzero = log.count('0')
+    zero, one = 0, 0
     ans = 0x7f7f7f7f
-    ansi = {}
     for i in range(n + 1):
-        newcost = compute_penalty(log, i)
+        if i - 1>= 0:
+            if log[i - 1] == '1':
+                one+= 1
+            else:
+                zero+= 1
+        newcost = one + totalzero - zero
         if newcost < ans:
-            ans = newcost
             ansi = {i}
+            ans = newcost
         elif newcost == ans:
-            ansi.add(i) 
+            ansi.add(i)
     return next(iter(ansi))
-
 
 def get_best_removal_times(file_contents):
     begin = False
     log = file_contents.split()
     l = []
     ans = []
-    for x in log:
+    for i, x in enumerate(log):
         if x == 'BEGIN':
             begin = True
             l.clear()
         elif x == 'END':
-            ans.append(find_best_removal_time(' '.join(l)))
+            if l:
+                ans.append(find_best_removal_time(' '.join(l)))
             begin = False
         elif begin:
             l.append(x)
