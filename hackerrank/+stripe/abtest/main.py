@@ -1,56 +1,60 @@
 # Define the function
+from collections import *
 def get_user_features1(user, features):
     ans = []
+    uid = user['id']
     for feature in features:
-        # abest even
         if 'locations' in feature and user['location'] not in feature['locations']: continue
-        if 'abTest' in feature and feature['abTest'] and user['id'] %2 == 1: continue
-        ans.append(feature['id']) 
+        if 'abTest' in feature and feature['abTest'] and uid % 2 == 1: continue # kip the odd users
+        ans.append(feature['id'])
     return ans
 def get_user_features2(user, features):
     ans = []
+    uid = user['id']
     for feature in features:
         name = feature['id']
         if 'locations' in feature and feature['locations'] and user['location'] not in feature['locations']: continue
-        if 'optOut' in user and name in user['optOut']: continue
         if 'optIn' in user and name in user['optIn']:
             ans.append(name)
             continue
-        if 'abTest' in feature and feature['abTest'] and user['id'] %2 == 1: continue
+        if 'optOut' in user and name in user['optOut']:
+            continue
+        if 'abTest' in feature and feature['abTest'] and uid % 2 == 1: continue # kip the odd users
         ans.append(name)
     return ans
 
 def get_user_features3(user, features):
     ans = []
-    disabled = set()
-    from collections import defaultdict
-    comp = defaultdict(list)
-
+    uid = user['id']
+    inf = 0x7f7f7f7f
+    com = defaultdict(list)
     for i, feature in enumerate(features):
         name = feature['id']
-        if 'incompatible' in feature:
-            comp[name].extend(feature['incompatible'])
-            for x in feature['incompatible']:
-                comp[x].append(name)
-
         if 'optIn' in user and name in user['optIn']:
-            features[i]['priority'] = 0x7f7f7f7f
-    features.sort(key = lambda x: x['priority'], reverse=True)
-
+            features[i]['priority'] = inf   
+        elif 'priority' not in features[i]:
+            features[i]['priority'] = 0
+        com[name].extend(feature.get('incompatible', []))
+        for x in feature.get('incompatible', []):
+            com[x].append(name)
+    vis = set()
+    features.sort(key = lambda x: x['priority'], reverse = True)
     for feature in features:
         name = feature['id']
-        if name in disabled: continue
+        if name in vis: continue
         if 'locations' in feature and feature['locations'] and user['location'] not in feature['locations']: continue
-        if 'optOut' in user and name in user['optOut']: continue
         if 'optIn' in user and name in user['optIn']:
             ans.append(name)
-            for x in comp[name]:
-                disabled.add(x)
+            vis.add(name)
+            for x in com[name]: vis.add(x)
             continue
-        if 'abTest' in feature and feature['abTest'] and user['id'] %2 == 1: continue
+        if 'optOut' in user and name in user['optOut']:
+            continue
+        if 'abTest' in feature and feature['abTest'] and uid % 2 == 1: continue # kip the odd users
         ans.append(name)
-        for x in comp[name]:
-            disabled.add(x)
+        vis.add(name)
+        for x in com[name]: vis.add(x)
+
     return ans
 # Define test data for users and features
 users = [
