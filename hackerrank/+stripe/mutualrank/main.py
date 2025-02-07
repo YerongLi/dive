@@ -8,30 +8,42 @@ data = {
 
 # Step 1) Define has_mutual_first_choice()
 def has_mutual_first_choice(username):
-    first_choice = data[username][0]  # Get the first choice of the user
-    return username == data[first_choice][0]  # Check if the first choice is mutual
-
+    b = data[username][0]
+    # [b][0]
+    return len(data[b]) > 0 and data[b][0] == username 
 # Define has_mutual_pair_for_rank()
 def has_mutual_pair_for_rank(username, rank):
-    # Get the user’s choice at the given rank
-    user_choice = data[username][rank]
-    # Check if the user’s choice considers them as the same rank (mutual pair)
-    return username == data[user_choice][rank]
+    b = data[username][rank]
+    return len(data[b]) > rank and data[b][rank] == username
 
 # Step 2) Define changed_pairings()
 def changed_pairings(username, rank):
-    affected_users = []
+    assert rank > 0, 'Rank has to be positive'
+    # [rank] [rank - 1]
+    b = data[username][rank - 1]
+    c = data[username][rank]
+    # [b, c] [c, b]
+    def cast(x): return 1 if x else 0
+
+    ans = []
     
-    # Identify which pairings will be affected by the change in rank
-    for other_user in data:
-        if other_user == username:
-            continue
-        if rank < len(data[other_user]) and data[other_user][rank] == username:
-            affected_users.append(other_user)
-    return affected_users
+    pre, now = has_mutual_pair_for_rank(username, rank - 1) == username, len(data[b]) > rank and data[b][rank] == username
+    # pre = cast(pre)
+    # now = cast(now)
 
-# Test Cases
+    if pre ^ now: ans.append(b)
 
+    pre, now = has_mutual_pair_for_rank(username, rank), len(data[c]) > rank - 1 and data[c][rank - 1] == username
+    # pre = cast(pre)
+    # now = cast(now)
+    if pre ^ now: ans.append(c)
+    # print(ans)
+    return ans
+
+def has_anti_mutual_rank(user, wishlists):
+    for r, v in enumerate(wishlists[user]):
+        if len(wishlists[v]) > r and wishlists[v][- r - 1] == user: return True
+    return False
 def test_step_1():
     # Test for has_mutual_first_choice
     assert has_mutual_first_choice('a') == True  # a and c are each other's first choice
@@ -52,9 +64,34 @@ def test_step_2():
     assert changed_pairings('d', 1) == ['a']  # If d's second choice becomes first, a and d lose mutual rank
     assert changed_pairings('b', 2) == ['c']  # If b's third choice becomes second, c and b become mutually ranked pair
     assert changed_pairings('b', 1) == []  # No changes in mutually ranked pairings when b's second choice is bumped
-
 # Run all tests
 test_step_1()
 test_step_2()
+
+# Test cases
+wishlists1 = {
+    'a': ['b', 'c', 'd'],  # a's first choice is 'b'
+    'b': ['d', 'c', 'a'],  # b's last choice is 'a'
+    'c': ['d', 'a'],
+    'd': ['c', 'b']
+}
+assert has_anti_mutual_rank('a', wishlists1) == True  # a and b form an Anti-Mutual Rank
+
+wishlists2 = {
+    'a': ['b', 'c', 'd'],
+    'b': ['a', 'd', 'c'],  # b does not rank 'a' last
+    'c': ['d', 'a', 'b'],
+    'd': ['a', 'c']
+}
+assert has_anti_mutual_rank('a', wishlists2) == True  # 'c' is the antirank of 'a'
+wishlists3 = {
+    'a': ['b', 'c', 'd'],
+    'b': ['d', 'c', 'a'],  # a and b still have an Anti-Mutual Rank
+    'c': ['d', 'a'],
+    'd': ['c', 'b']
+}
+assert has_anti_mutual_rank('b', wishlists3) == True  # 'd is the antirank of 'b'
+
+
 
 print("All tests passed!")
