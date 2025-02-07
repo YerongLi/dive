@@ -1,100 +1,103 @@
-from collections import defaultdict
+from collections import *
 def solve1(inputString, source, target, method):
     g = defaultdict(list)
     mg = defaultdict(list)
     cg = defaultdict(list)
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
+        for r in inputString.split(','):
+            xx, vv, mm, cc = r.split(':')
+            g[xx].append(vv)
+            mg[xx].append(mm)
             cc = int(cc)
-            g[ss].append(tt)
-            mg[ss].append(mm)
-            cg[ss].append(cc)
-    for i, v in enumerate(g[source]):
-        if v == target and mg[source][i] == method:
-            return cg[source][i]
-    return 'Route not found'
+            cg[xx].append(cc)
 
+    for i, v in enumerate(g[source]):
+        if mg[source][i] == method and v == target: return cg[source][i]
+    return 'Route not found'
 def solve2(inputString, source, target):
     g = defaultdict(list)
     mg = defaultdict(list)
     cg = defaultdict(list)
-    rg = defaultdict(list)
-    rmg = defaultdict(list)
-    rcg = defaultdict(list)
-    
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
+        for r in inputString.split(','):
+            xx, vv, mm, cc = r.split(':')
+            g[xx].append(vv)
+            mg[xx].append(mm)
             cc = int(cc)
-            g[ss].append(tt)
-            mg[ss].append(mm)
-            cg[ss].append(cc)
+            cg[xx].append(cc)
 
-            rg[tt].append(ss)
-            rmg[tt].append(mm)
-            rcg[tt].append(cc)
+    p = defaultdict()
+    reach = defaultdict()
+    ans = inf = 0x7f7f7f7f
+    res = None
+    def dfs(x, step, cost):
+        nonlocal ans, res
+        if step == 3: return
+        if x == target and cost < ans:
+            ans = cost
+            route = []
+            method = []
+            while x != source:
+                route.append(x)
+                method.append(reach[x])
+                x = p[x]
+            route.append(source)
+            if len(method) == 2 and method[0] == method[1]: method.pop()
 
-    inf = 0x7f7f7f7f
-    ans = inf
-    for i, v in enumerate(g[source]):
-        if v == target:
-            ans = cg[source][i]
-            method = mg[source][i]
-            route = ' -> '.join([source, target])
-    parents = defaultdict(list)
-    for j, v in enumerate(rg[target]):
-        parents[v].append(j)
-    for i, v in enumerate(g[source]):
-        for j in parents[v]:
-            ans = cg[source][i] + rcg[target][j]
-            method = mg[source][i] if mg[source][i] == rmg[target][j] else ' -> '.join([mg[source][i], rmg[target][j]])
-            route = ' -> '.join([source, v, target])
-    if ans != inf: return {'cost': ans, 'route': route, 'method': method}
-    return 'Route not found'   
+            res = {'cost': cost, 'route' : ' -> '.join(route[::-1]), 'method': ' -> '.join(method[::-1])}
+            return 
+        for i, v in enumerate(g[x]):
+            newcost = cg[x][i] + cost
+            p[v] = x
+            reach[v] = mg[x][i]
+            dfs(v, step + 1, newcost)
+    dfs(source, 0, 0)
+    if ans != inf: return res
+    return 'Route not found'
+        
 
 def solve3(inputString, source, target):
     g = defaultdict(list)
     mg = defaultdict(list)
     cg = defaultdict(list)
-    rg = defaultdict(list)
-    rmg = defaultdict(list)
-    rcg = defaultdict(list)
-    
     if inputString:
-        for x in inputString.split(','):
-            ss, tt, mm, cc = x.split(':')
+        for r in inputString.split(','):
+            xx, vv, mm, cc = r.split(':')
+            g[xx].append(vv)
+            mg[xx].append(mm)
             cc = int(cc)
-            g[ss].append(tt)
-            mg[ss].append(mm)
-            cg[ss].append(cc)
+            cg[xx].append(cc)
 
-            rg[tt].append(ss)
-            rmg[tt].append(mm)
-            rcg[tt].append(cc)
+    p = defaultdict()
+    reach = defaultdict()
+    ans = inf = 0x7f7f7f7f
+    res = None
+    def dfs(x, step, cost):
+        nonlocal ans, res
+        if step == 3: return
+        if x == target and cost < ans:
+            ans = cost
+            route = []
+            method = []
+            while x != source:
+                route.append(x)
+                method.append(reach[x])
+                x = p[x]
+            route.append(source)
+            if len(method) == 2 and method[0] == method[1]: method.pop()
 
-    inf = 0x7f7f7f7f
-    ans = inf
-    for i, v in enumerate(g[source]):
-        if v == target:
-            newcost = cg[source][i]
-            if newcost >= ans: continue
-            ans = newcost
-            method = mg[source][i]
-            route = ' -> '.join([source, target])
-    parents = defaultdict(list)
-    for j, v in enumerate(rg[target]):
-        parents[v].append(j)
-    for i, v in enumerate(g[source]):
-        for j in parents[v]:
-
-            newcost = cg[source][i] + rcg[target][j]
-            if newcost >= ans: continue
-            ans = newcost
-            method = mg[source][i] if mg[source][i] == rmg[target][j] else ' -> '.join([mg[source][i], rmg[target][j]])
-            route = ' -> '.join([source, v, target])
-    if ans != inf: return {'cost': ans, 'route': route, 'method': method}
+            res = {'cost': cost, 'route' : ' -> '.join(route[::-1]), 'method': ' -> '.join(method[::-1])}
+            return 
+        for i, v in enumerate(g[x]):
+            newcost = cg[x][i] + cost
+            p[v] = x
+            reach[v] = mg[x][i]
+            dfs(v, step + 1, newcost)
+    dfs(source, 0, 0)
+    if ans != inf: return res
     return 'Route not found'
+    
+
 def test_solve1():
     inputString = "US:UK:UPS:4,US:UK:DHL:5,UK:CA:FedEx:10,AU:JP:DHL:20"
     
@@ -118,6 +121,7 @@ def test_solve2():
     
     # Route from US -> UK -> CA
     result = solve2(inputString, "US", "CA")
+    print(result)
     assert result in [{
         "route": "US -> UK -> CA",
         "method": "UPS -> FedEx",
@@ -154,7 +158,6 @@ def test_solve3():
     
     # Edge case: empty string input
     result = solve3("", "US", "CA")
-    print(result)
     assert result == "Route not found"
 test_solve1()
 test_solve2()
