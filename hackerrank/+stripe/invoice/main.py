@@ -1,16 +1,31 @@
-def test_part1():
+import heapq
+class Invoicer:
+
+    def __init__(self, send_schedule):
+        self.send_schedule = send_schedule
+    def send_emails1(self, records):
+        ans = []
+        for r in records:
+            invoice_time, name, amt = r['invoice_time'], r['name'], r['amount']
+            for o, text in self.send_schedule.items():
+                ans.append((o + invoice_time, text, name, amt))
+        ans.sort()
+        ansstr = [f"{t}: [{text}] Invoice for {n} for {a} dollars" for t, text, n, a in ans]
+        return ansstr
+def test_send_emails():
     send_schedule = {
         -10: "Upcoming",
         0: "New",
         20: "Reminder",
         30: "Due"
     }
+    invoicer = Invoicer(send_schedule)
 
     customer_invoices = [
         {"invoice_time": 0, "name": "Alice", "amount": 200},
         {"invoice_time": 1, "name": "Bob", "amount": 100},
     ]
-
+    
     expected_output = [
         "-10: [Upcoming] Invoice for Alice for 200 dollars",
         "-9: [Upcoming] Invoice for Bob for 100 dollars",
@@ -19,30 +34,58 @@ def test_part1():
         "20: [Reminder] Invoice for Alice for 200 dollars",
         "21: [Reminder] Invoice for Bob for 100 dollars",
         "30: [Due] Invoice for Alice for 200 dollars",
-        "31: [Due] Invoice for Bob for 100 dollars"
+        "31: [Due] Invoice for Bob for 100 dollars",
     ]
+    
+    assert invoicer.send_emails1(customer_invoices) == expected_output, "Test Case 1 Failed"
+    print("Test Case 1 Passed")
+    
+    # Additional test cases for Part 1
+    customer_invoices_extra = [
+        {"invoice_time": 2, "name": "Eve", "amount": 300},
+    ]
+    expected_output_extra = [
+        "-8: [Upcoming] Invoice for Eve for 300 dollars",
+        "2: [New] Invoice for Eve for 300 dollars",
+        "22: [Reminder] Invoice for Eve for 300 dollars",
+        "32: [Due] Invoice for Eve for 300 dollars",
+    ]
+    assert invoicer.send_emails1(customer_invoices_extra) == expected_output_extra, "Test Case 1.1 Failed"
+    print("Test Case 1.1 Passed")
+    
+    # Another additional test case for Part 1
+    customer_invoices_more = [
+        {"invoice_time": 5, "name": "David", "amount": 400},
+    ]
+    expected_output_more = [
+        "-5: [Upcoming] Invoice for David for 400 dollars",
+        "5: [New] Invoice for David for 400 dollars",
+        "25: [Reminder] Invoice for David for 400 dollars",
+        "35: [Due] Invoice for David for 400 dollars",
+    ]
+    assert invoicer.send_emails1(customer_invoices_more) == expected_output_more, "Test Case 1.2 Failed"
+    print("Test Case 1.2 Passed")
 
-    assert part1(send_schedule, customer_invoices) == expected_output, "Test Part 1 Failed"
-
-def test_part2():
+def test_send_emails_with_payments():
     send_schedule = {
         -10: "Upcoming",
         0: "New",
         20: "Reminder",
         30: "Due"
     }
+    invoicer = Invoicer(send_schedule)
 
     customer_invoices = [
         {"invoice_time": 0, "name": "Alice", "amount": 200},
         {"invoice_time": 1, "name": "Bob", "amount": 100},
     ]
-
+    
     customer_payments = [
         {"payment_time": -9, "name": "Alice", "amount": 100},
         {"payment_time": 1, "name": "Alice", "amount": 50},
         {"payment_time": 0, "name": "Bob", "amount": 100},
     ]
-
+    
     expected_output = [
         "-10: [Upcoming] Invoice for Alice for 200 dollars",
         "-9: [Upcoming] Invoice for Bob for 100 dollars",
@@ -52,11 +95,47 @@ def test_part2():
         "Delinquent customers:",
         "Alice owes 50 dollars"
     ]
+    
+    assert invoicer.send_emails(customer_invoices, customer_payments) == expected_output, "Test Case 2 Failed"
+    print("Test Case 2 Passed")
+    
+    # Additional test cases for Part 2
+    customer_payments_extra = [
+        {"payment_time": -5, "name": "Eve", "amount": 150},
+    ]
+    expected_output_extra = [
+        "-10: [Upcoming] Invoice for Alice for 200 dollars",
+        "-9: [Upcoming] Invoice for Bob for 100 dollars",
+        "-5: [Upcoming] Invoice for Eve for 300 dollars",
+        "0: [New] Invoice for Alice for 100 dollars",
+        "20: [Reminder] Invoice for Alice for 50 dollars",
+        "30: [Due] Invoice for Alice for 50 dollars",
+        "Delinquent customers:",
+        "Alice owes 50 dollars",
+        "Eve owes 150 dollars"
+    ]
+    
+    assert invoicer.send_emails(customer_invoices, customer_payments_extra) == expected_output_extra, "Test Case 2.1 Failed"
+    print("Test Case 2.1 Passed")
+    
+    # Another additional test case for Part 2
+    customer_payments_more = [
+        {"payment_time": 0, "name": "David", "amount": 400},
+    ]
+    expected_output_more = [
+        "-10: [Upcoming] Invoice for Alice for 200 dollars",
+        "-9: [Upcoming] Invoice for Bob for 100 dollars",
+        "0: [New] Invoice for Alice for 100 dollars",
+        "20: [Reminder] Invoice for Alice for 50 dollars",
+        "30: [Due] Invoice for Alice for 50 dollars",
+        "Delinquent customers:",
+        "Alice owes 50 dollars"
+    ]
+    
+    assert invoicer.send_emails(customer_invoices, customer_payments_more) == expected_output_more, "Test Case 2.2 Failed"
+    print("Test Case 2.2 Passed")
 
-    assert part2(send_schedule, customer_invoices, customer_payments) == expected_output, "Test Part 2 Failed"
 
-# Run tests
-test_part1()
-test_part2()
 
-print("All tests passed!")
+test_send_emails()
+test_send_emails_with_payments()
