@@ -1,0 +1,25 @@
+# Given a String, split it into major parts separated by special char '/'.
+# For each major part that’s split by '/', we can further split it into minor parts separated by '.'.
+# ### Example 1
+# str = stripe.com/payments/checkout/customer.john.doe
+# minor_parts = 2
+# after Part 1 compression
+# =>
+# s4e.c1m/p6s/c6t/c6r.j2n.d1e
+# after Part 2 compression
+# =>
+# s4e.c1m/p6s/c6t/c6r.j5e
+# # ### Example 2
+# Given:
+# str = www.api.stripe.com/checkout
+# minor_parts = 3
+# (afte‍‌‌‌‍‍‍‍‌‍‌‌‍‍‍‍‍‍‌‌r Part 1 compression)
+# =>
+# w1w.a1i.s4e.c1m/c6t
+# (then after Part 2 compression)
+# =>
+# w1w.a1i.s7m/c6t
+复制代码
+第一问是对每个minor_part 进行shorten
+第二问是再给一个参数m 每个major_part里只能有m个minor_part
+第三问是整个compressed_url 只能有m个minor_part, 也有看到帖子说会输入m, t, m表示一个major_part里可以有的minor_part数量，t是全部总共可以有的minor_part数量
