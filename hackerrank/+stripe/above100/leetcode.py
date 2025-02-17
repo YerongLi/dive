@@ -6,35 +6,36 @@ class Solution:
     def minTransfers(self, transactions: List[List[int]]) -> int:
         m = defaultdict(int)
         for a, b, x in transactions:
-            m[a] -= x
-            m[b] += x
-        ans = 0x7f7f7f7f
-        def dfs(step):
-            nonlocal m, ans
-            if step >= ans:
-                return
-            allzero = True
-            for k in m:
-                if m[k] != 0:
-                    allzero = False
-                    break
-            if allzero:
+            m[a]-= x
+            m[b]+= x
+        l = list()
+        for name, x in m.items():
+            l.append([name, x])
+        n = len(l)
+        ans = 0x7f7ff7f
+
+        def dfs(i, step):
+            # up till i -1 is fine >= 0
+            nonlocal ans
+            if step == ans: return
+            p = i # next i
+            while p < n:
+                if l[p][1] < 0: break
+                p+=1
+            if p == n: 
                 ans = step
                 return
+            for q in range(n): 
+                if l[q][1] > 0:
+                    x = min(-l[p][1], l[q][1])
+                    l[p][1]+= x
+                    l[q][1]-= x
+                    dfs(p, step + 1)
+                    l[p][1]-= x
+                    l[q][1]+= x
 
-            keys = [(m[x], x) for x in m]
-            keys.sort()
-            for _, i in keys:
-                if m[i] >= 0: continue
-                for _, j in keys[::-1]:
-                    if m[j] <= 0: continue
-                    x = max(-m[i], m[j])
-                    m[i] += x
-                    m[j] -= x
-                    dfs(step + 1)
-                    m[i] -= x
-                    m[j] += x
-        dfs(0)
+            return ans
+        dfs(0, 0)
         return ans
 
 # Instantiate the solution object

@@ -16,17 +16,16 @@ from collections import *
 class Logger:
     def __init__(self):
         self.q = deque()
-        self.cache = set()
+        self.cnt = defaultdict(int)
     
     def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
         while self.q and self.q[0][0] <= timestamp - 10:
-            t, m = self.q.popleft()
-            self.cache.remove(m)
-        ans = not (message in self.cache)
-        if ans:
-            self.q.append((timestamp, message))
-            self.cache.add(message)
-        return ans
+            self.cnt[self.q[0][1]]-= 1
+            self.q.popleft()
+        if self.cnt[message] >= 1: return False
+        self.cnt[message]+= 1
+        self.q.append((timestamp, message))
+        return True
 
 # Instantiate Logger object and test the provided test case
 logger = Logger()
