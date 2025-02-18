@@ -8,6 +8,8 @@ class Solution:
         for a, b, x in transactions:
             m[a]-= x
             m[b]+= x
+        print(m)
+
         l = list()
         for name, x in m.items():
             l.append([name, x])
