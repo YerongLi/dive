@@ -31,6 +31,7 @@ def compress_url(url, m=None, t=None):
 def test_compress_url():
     assert compress_url("stripe.com/payments/checkout/customer.john.doe") == "s4e.c1m/p6s/c6t/c6r.j2n.d1e"
     assert compress_url("www.api.stripe.com/checkout") == "w1w.a1i.s4e.c1m/c6t"
+    print('Passed part 1')
     assert compress_url("stripe.com/payments/checkout/customer.john.doe", m=2) == "s4e.c1m/p6s/c6t/c6r.j5e"
     assert compress_url("www.api.stripe.com/checkout", m=3) == "w1w.a1i.s7m/c6t"
     assert compress_url("stripe.com/payments/checkout/customer.john.doe", m=2, t=5) == "s4e.c1m/p6s/c6t/c6r.j5e"

@@ -1,17 +1,38 @@
-import heapq
 class Invoicer:
-
-    def __init__(self, send_schedule):
-        self.send_schedule = send_schedule
-    def send_emails1(self, records):
+    def __init__(self, schedule):
+        self.schedule = schedule
+    def send_emails1(self, invoices):
         ans = []
-        for r in records:
-            invoice_time, name, amt = r['invoice_time'], r['name'], r['amount']
-            for o, text in self.send_schedule.items():
-                ans.append((o + invoice_time, text, name, amt))
+        for entry in invoices:
+            time, name, a = entry['invoice_time'], entry['name'], entry['amount']
+            for off, tp in self.schedule.items():
+                ans.append([time+off, tp, name, a])
         ans.sort()
-        ansstr = [f"{t}: [{text}] Invoice for {n} for {a} dollars" for t, text, n, a in ans]
+        ansstr = [f"{time}: [{tp}] Invoice for {name} for {a} dollars" for time, tp, name, a in ans]
         return ansstr
+    def send_emails(self, invoices, payments):
+        ans = []
+        m = {}
+        for entry in invoices:
+            time, name, a = entry['invoice_time'], entry['name'], entry['amount']
+            m[name] = a
+            for off, tp in self.schedule.items():
+                ans.append([time+off, tp, name, a])
+        for entry in payments:
+            time, name, a = entry['payment_time'], entry['name'], entry['amount']
+            ans.append([time, '', name, a]) # None represents payment
+        ans.sort()
+        print(ans)
+        for i, (time, tp, name, a) in enumerate(ans):
+            if not tp:
+                m[name]-= a
+            else:
+                ans[i][-1] = m[name]
+        ansstr = [f"{time}: [{tp}] Invoice for {name} for {a} dollars" for time, tp, name, a in ans if len(tp) and a]
+        for x in ansstr:
+            print(x)
+        return ansstr
+
 def test_send_emails():
     send_schedule = {
         -10: "Upcoming",
