@@ -8,24 +8,16 @@ def shorten_part(part):
     return f"{part[0]}{len(part) - 2}{part[-1]}"
 
 def compress_url(url, m=None, t=None):
-    major_parts = url.split('/')
-    compressed_major_parts = []
-    total_minor_parts = 0
-    
-    for major in major_parts:
-        minor_parts = major.split('.')
-        compressed_minor_parts = [shorten_part(part) for part in minor_parts]
-        
-        if m:
-            compressed_minor_parts = compressed_minor_parts[:m]
-        compressed_major_parts.append('.'.join(compressed_minor_parts))
-        total_minor_parts += len(compressed_minor_parts)
-    
-    if t:
-        compressed_major_parts = '.'.join(compressed_major_parts).split('.')[:t]
-        return '/'.join(compressed_major_parts)
-    
-    return '/'.join(compressed_major_parts)
+    def compress(part):
+        if len(part) <= 2: return part
+        return f'{part[0]}{len(part)-2}{part[-1]}'
+
+    l = url.split('/')
+    ans = []
+    for x in l:
+        parts = x.split('.')
+        ans.append('.'.join([compress(p) for p in parts]))
+    return '/'.join(ans)
 
 # Test cases
 def test_compress_url():

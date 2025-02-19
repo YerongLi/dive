@@ -1,37 +1,3 @@
-class Invoicer:
-    def __init__(self, schedule):
-        self.schedule = schedule
-    def send_emails1(self, invoices):
-        ans = []
-        for entry in invoices:
-            time, name, a = entry['invoice_time'], entry['name'], entry['amount']
-            for off, tp in self.schedule.items():
-                ans.append([time+off, tp, name, a])
-        ans.sort()
-        ansstr = [f"{time}: [{tp}] Invoice for {name} for {a} dollars" for time, tp, name, a in ans]
-        return ansstr
-    def send_emails(self, invoices, payments):
-        ans = []
-        m = {}
-        for entry in invoices:
-            time, name, a = entry['invoice_time'], entry['name'], entry['amount']
-            m[name] = a
-            for off, tp in self.schedule.items():
-                ans.append([time+off, tp, name, a])
-        for entry in payments:
-            time, name, a = entry['payment_time'], entry['name'], entry['amount']
-            ans.append([time, '', name, a]) # None represents payment
-        ans.sort()
-        print(ans)
-        for i, (time, tp, name, a) in enumerate(ans):
-            if not tp:
-                m[name]-= a
-            else:
-                ans[i][-1] = m[name]
-        ansstr = [f"{time}: [{tp}] Invoice for {name} for {a} dollars" for time, tp, name, a in ans if len(tp) and a]
-        for x in ansstr:
-            print(x)
-        return ansstr
 
 def test_send_emails():
     send_schedule = {
