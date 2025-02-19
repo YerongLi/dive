@@ -29,8 +29,17 @@ class Invoicer:
             else:
                 ans[i][-1] = m[name]
         ansstr = [f"{time}: [{tp}] Invoice for {name} for {a} dollars" for time, tp, name, a in ans if len(tp) and a]
-        for x in ansstr:
-            print(x)
+        de = []
+        kk = sorted(m.keys())
+        for x in kk:
+            if m[x]:
+                de.append(x)
+        # "Delinquent customers:",
+        # "Alice owes 50 dollars"
+        if de:
+            ansstr.append("Delinquent customers:")
+            for x in de:
+                ansstr.append(f"{x} owes {m[x]} dollars")
         return ansstr
 
 def test_send_emails():
@@ -121,19 +130,23 @@ def test_send_emails_with_payments():
     print("Test Case 2 Passed")
     
     # Additional test cases for Part 2
-    customer_payments_extra = [
-        {"payment_time": -5, "name": "Eve", "amount": 150},
+    # some one pays on a due date
+    customer_invoices_extra = [
+        {"invoice_time": 0, "name": "Alice", "amount": 200},
+        {"invoice_time": 1, "name": "Bob", "amount": 100},
     ]
+    
+    customer_payments_extra = [
+        {"payment_time": -9, "name": "Alice", "amount": 100},
+        {"payment_time": -5, "name": "Alice", "amount": 100},
+        {"payment_time": 0, "name": "Bob", "amount": 100},
+    ]
+    
     expected_output_extra = [
         "-10: [Upcoming] Invoice for Alice for 200 dollars",
         "-9: [Upcoming] Invoice for Bob for 100 dollars",
-        "-5: [Upcoming] Invoice for Eve for 300 dollars",
-        "0: [New] Invoice for Alice for 100 dollars",
         "20: [Reminder] Invoice for Alice for 50 dollars",
         "30: [Due] Invoice for Alice for 50 dollars",
-        "Delinquent customers:",
-        "Alice owes 50 dollars",
-        "Eve owes 150 dollars"
     ]
     
     assert invoicer.send_emails(customer_invoices, customer_payments_extra) == expected_output_extra, "Test Case 2.1 Failed"
