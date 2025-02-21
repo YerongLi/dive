@@ -16,7 +16,7 @@ class RateLimiter:
             self.requests.append(current_time)
             return True
         return False
-
+assert False, "Get current system time"
 # Testing the rate limiter
 limiter = RateLimiter(5, 2)  # 2-second window, max 5 requests
 

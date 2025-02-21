@@ -1,3 +1,9 @@
 题目： load balancing。 give a list of server name, e.g.["a", "b", "c"]。 然后要求route requests， request有自己的weight, e.g. route(1) -> "a", route(1) -> "b"。 requests 要route 到load 最轻的server， 如果多个server的load 相同，按照accending order
 follow up：
 request 增加需要process的时间，process 完server的load 要减去processed req's weight. e.g. route(2, 0.1) -> "a", route(1, 0.3) -> "b", sleep(0.1), route(2, 0.1) -> "a"
+
+
+1. Coding，load balancer。要求return给user在available server中，符合constraints的最小weight server。
+（1）第一问：直接return 最小weight server。weight相同return 字符最小的
+（2）第二问：加上ttl-time to live。用语言自带的time package，然后每个server记录每个task结束的时间，然后在结束相应的task就行。
+（3）第三问：server有了可接受的最大load。没啥可说的。
