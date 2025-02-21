@@ -1,32 +1,31 @@
 import time
 from heapq import *
-
 class LoadBalancer:
     def __init__(self, ss, max_load = 0x7f7f7f7f):
         self.m = {s : 0 for s in ss}
-        self.sq = sorted([(0, s) for s in ss])
+        self.q = sorted([(0, s) for s in ss])
         self.tq = []
     def route(self, cost):
-        while 1:
-            load, name = heappop(self.sq)
-            if self.m[name] == load: break
+        load, name = heappop(self.q)
         self.m[name]+= cost
-        heappush(self.sq, (self.m[name], name))
+        heappush(self.q, (self.m[name], name))
         return name
     def route2(self, cost, ttl):
         now = time.time()
-        print(now)
+        while self.tq and self.tq[0][0] <= now:
+            _, name, weight = heappop(self.tq)
+            self.m[name]-= weight
+            heappush(self.q, (self.m[name], name))
 
-        while self.tq and self.tq[0][0] - now :
-            heappop(self.tq)
-        while 1:
-            print(self.sq)
+        while self.q:
+            load, name = heappop(self.q)
+            if load == self.m[name]:
 
-            load, name = heappop(self.sq)
-            if self.m[name] == load: break
-        self.m[name]+= cost
-        heappush(self.sq, (self.m[name], name))
-        heappush(self.tq, (now+ttl, name, cost))
+                self.m[name]+= cost
+                heappush(self.q, (self.m[name], name))
+                heappush(self.tq, (now+ttl, name, cost))
+                break
+
         return name
 
 def test_load_balancer():
