@@ -1,3 +1,44 @@
+schedule = {
+    -15: 'Upcoming expiration',
+    0: 'Expired'
+}
+def part1(users):
+    ans = []
+    for user in users:
+        name, plan, begin, duration = user['name'], user['plan'], user['begin_date'], user['duration']
+        end = duration + begin
+        ans.append([begin, -0x7f7f7f7f,'Welcome', name, plan])
+        for offset, tp in schedule.items():
+            ans.append([end + offset, offset, tp, name, plan])
+    ans.sort()
+    ansstr = [f'{time}: [{tp}] {name}, subscribe in plan {plan}' for time,_, tp, name, plan in ans]
+    # for l in ansstr: print(l)
+    return ansstr
+def part2(users,changes):
+    ans = []
+    for user in users:
+        name, plan, begin, duration = user['name'], user['plan'], user['begin_date'], user['duration']
+        end = duration + begin
+        ans.append([begin, -0x7f7f7f7f,'Welcome', name, plan])
+        for offset, tp in schedule.items():
+            ans.append([end + offset, offset, tp, name, plan])
+    for change in changes:
+        name, plan, time = change['name'], change['new_plan'], change['change_date']
+        ans.append([time, -0x3f3f3f3f, 'Changed', name, plan])
+
+    ans.sort()
+    m = {}
+    for i, (_, _, tp, name, plan) in enumerate(ans):
+        if tp == 'Welcome':
+            m[name] = plan
+        elif tp == 'Changed':
+            m[name] = plan
+        else:
+            ans[i][-1] = m[name]
+
+
+    ansstr = [f'{time}: [{tp}] {name}, subscribe in plan {plan}' for time,_, tp, name, plan in ans]
+    return ansstr
 def test_part1():
     users = [
         {"name": "A", "plan": "X", "begin_date": 0, "duration": 30},
