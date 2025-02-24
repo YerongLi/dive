@@ -1,0 +1,9 @@
+目标：
+返回账户余额大于 0 的账户及余额。
+处理余额不足的交易，并返回。
+3.a 添加主账户逻辑：余额不足时从主账户补充资金（主账户名称通过额外参数传入）。
+一共四问，做到3a就可以。
+
+coding:一道没见过的计算accountBalance的新题。前两问都很简单会用map就能写出来。第三问part a是会传进去一个platform account。可以用platform account里面的钱来cover其他负的account
+
+能不能猜中第三问part3的代码
