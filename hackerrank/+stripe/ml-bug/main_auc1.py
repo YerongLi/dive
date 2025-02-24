@@ -4,7 +4,7 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import precision_recall_curve, roc_curve, precision_score, recall_score
-
+from sklearn.metrics import roc_auc_score
 # 1️⃣ Load Dataset
 data = load_breast_cancer()
 X, y = data.data, data.target
@@ -36,7 +36,12 @@ def compute_auc_trapezoidal(x, y):
         auc_value += (x[i] - x[i - 1]) * (y[i] + y[i - 1]) / 2  
     return auc_value
 
-correct_roc_auc = compute_auc_trapezoidal(fpr, tpr)
+correct_roc_auc = 0.0
+for i in range(1 , len(fpr)):
+    correct_roc_auc+= ((fpr[i] - fpr[i - 1]) * (tpr[i] + tpr[i - 1]) ) / 2
+print(correct_roc_auc)
+correct_roc_auc= roc_auc_score(y_test, y_scores)
+print(correct_roc_auc)
 
 # 8️⃣ Compute Precision and Recall at threshold 0.5
 y_pred = (y_scores >= 0.5).astype(int)
