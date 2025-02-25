@@ -1,6 +1,6 @@
 def redistribute_funds(accounts):
     p, q = 0, 0
-    l = [[name, a-100] for name, a in accounts.items()]
+    l = [[name, x - 100] for name, x in accounts.items()]
     n = len(l)
     ans = []
     while p < n:
@@ -8,14 +8,13 @@ def redistribute_funds(accounts):
             while q < n:
                 if l[q][1] > 0: break
                 q+= 1
+            if q == n: return None
             x = min(abs(l[p][1]), abs(l[q][1]))
             l[p][1]+= x
             l[q][1]-= x
-            f, t = l[q][0], l[p][0]
-            ans.append({'from': f, 'to': t, 'amount': x})
+            ans.append({'from': l[q][0], 'to': l[p][0], 'amount': x})
         else:
-            p+= 1
-    if p <n and l[p][1] < 0: return None
+            p += 1
     return ans
 
     
