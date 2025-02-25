@@ -29,49 +29,45 @@ def part2(users, changes):
         ans[i][-1] = m[name]
     res = [f"{time}: [{tp}] {name}, subscribe in plan {plan}" for time, _, tp, name, plan in ans]
     return res
-from bisect import *
 def part3(users, changes):
+    from bisect import insort
     ans = []
     e = {}
     for x in users:
         name, plan, begin, du = x['name'], x['plan'], x['begin_date'], x['duration']
+        e[name] = begin+du
         ans.append([begin, -0x7f7f7f7f, 'Welcome', name, plan])
-        e[name] = begin + du
         for offset, tp in schedule.items():
             ans.append([begin+du+offset, offset, tp, name, plan])
     # changes = [{"name": "A", "new_plan": "Y", "change_date": 5}]
     for x in changes:
         if 'new_plan' in x:
             name, plan, time = x['name'], x['new_plan'], x['change_date']
-            ans.append([time, -0x7f, 'Changed', name, plan])
-
+            ans.append([time, -0x7f7f, 'Changed', name, plan])
         else:
-            name, extend, time = x['name'], x['extension'], x['change_date']
-            ans.append([time, -0x3f, 'Renewed', name, extend])
-    
+            name, plan, time = x['name'], x['extension'], x['change_date']
+            ans.append([time, -0x7f, 'Renewed', name, plan])
+ 
     ans.sort()
 
     m = {}
     i = 0
-
     # for i, (_, _, tp, name, plan) in enumerate(ans):
     while i < len(ans):
-        time, _, tp, name, plan = ans[i]
+        (_, _, tp, name, plan) = ans[i]
         if tp == 'Welcome' or tp == 'Changed':
             m[name] = plan
         elif tp == 'Renewed':
+            e[name]+= plan
             for j in range(i + 1, len(ans)):
-                if ans[j][2] not in {'Renewed', 'Changed'} and ans[j][-2] == name:
+                if ans[j][2] not in {'Changed', 'Renewed'} and name == ans[j][-2]:
                     ans[j][2] = None
-            e[name] += plan # extend
-            for offset, tp in schedule.items():
-                insort(ans, [e[name]+offset, offset, tp, name, m[name]]) 
+            for offset, tt in schedule.items():
+                insort(ans, [offset+e[name], offset, tt, name, e[name]])
         ans[i][-1] = m[name]
         i+= 1
-
     res = [f"{time}: [{tp}] {name}, subscribe in plan {plan}" for time, _, tp, name, plan in ans if tp]
     return res
-
 def test_part1():
     users = [
         {"name": "A", "plan": "X", "begin_date": 0, "duration": 30},
