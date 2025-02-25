@@ -17,21 +17,23 @@ model = RandomForestClassifier(random_state=42, n_estimators=100)
 model.fit(X_train, y_train)
 
 # 4️⃣ Get Predictions (Probabilities for Class 1)
-y_scores = 
+y_scores = model.predict_proba(X_test)
+y_scores = None
 
 # 5️⃣ Compute Precision, Recall, and ROC Curve
-precision, recall, _ = 
-fpr, tpr, _ = 
+precision, recall, _ = None
+fpr, tpr, _ = roc_curve(y_test, y_scores)
+
 # 6️⃣ Wrong ROC AUC Calculation (Incorrect Summation)
 wrong_roc_auc = sum(tpr)  # ❌ INCORRECT: Just summing up TPR
 
 
-correct_roc_auc =
+correct_roc_auc = None
 
 # 8️⃣ Compute Precision and Recall at threshold 0.5
-y_pred = 
-precision_manual = 
-recall_manual = 
+y_pred = None
+precision_manual = None
+recall_manual = None
 
 print(f"Precision: {precision_manual:.4f}, Recall: {recall_manual:.4f}")
 print(f"🚨 Wrong ROC AUC (Incorrect Sum): {wrong_roc_auc:.4f}")  # Should be wrong
