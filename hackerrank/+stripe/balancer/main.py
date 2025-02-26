@@ -1,30 +1,45 @@
 import time
 from heapq import *
 class LoadBalancer:
-    def __init__(self, servers):
+    def __init__(self, servers, max_load = 100):
         self.m = {x : 0 for x in servers}
         servers.sort()
         self.q = [[0, x] for x in servers]
-        self.tq = [] # endingtime, name, cost
+        self.tq = [] # end time , name , cost
+        self.max_load = max_load
     def route(self, cost):
         load, name = heappop(self.q)
         heappush(self.q, [load+cost, name])
         return name
     def route2(self, cost, ttl):
         timestamp = time.time()
-        while self.tq and self.tq[0][0] <= timestamp:
-            _, n, w = heappop(self.tq)
-            self.m[n]-= w
-            heappush(self.q, [self.m[n], n])
+        while self.tq and timestamp >= self.tq[0][0]:
+            _, name, cc = heappop(self.tq)
+            self.m[name]-= cc
+            heappush(self.q, [self.m[name], name])
 
-        while self.q and self.q[0][0] != self.m[self.q[0][1]]:
-            heappop(self.q)
+        while self.q and self.m[self.q[0][1]] != self.q[0][0]:
+            heappop(self.q) # invalid
         load, name = heappop(self.q)
-        self.m[name] = load + cost
-        heappush(self.tq, [ttl + timestamp, name, cost])
-        heappush(self. q, [self.m[name], name])
+        self.m[name]+= cost
+        heappush(self.tq, [timestamp+ttl, name, cost])
+        heappush(self.q, [self.m[name], name])
         return name
+    def route3(self, cost, ttl):
+        timestamp = time.time()
+        while self.tq and timestamp >= self.tq[0][0]:
+            _, name, cc = heappop(self.tq)
+            self.m[name]-= cc
+            heappush(self.q, [self.m[name], name])
 
+        while self.q and self.m[self.q[0][1]] != self.q[0][0]:
+            heappop(self.q) # invalid
+        load, name = heappop(self.q)
+        if self.max_load < self.m[name] + cost: return None
+        self.m[name]+= cost
+        heappush(self.tq, [timestamp+ttl, name, cost])
+        heappush(self.q, [self.m[name], name])
+        return name
 
 def test_load_balancer():
     lb = LoadBalancer(["a", "b", "c"])
