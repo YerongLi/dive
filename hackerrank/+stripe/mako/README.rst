@@ -1,3 +1,6 @@
+mako/mako/lookup.py
+mako/mako/_ast_util.py
+
 =========================
 Mako Templates for Python
 =========================
