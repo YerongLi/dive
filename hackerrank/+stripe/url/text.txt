@@ -23,3 +23,16 @@
 第一问是对每个minor_part 进行shorten
 第二问是再给一个参数m 每个major_part里只能有m个minor_part
 第三问是整个compressed_url 只能有m个minor_part, 也有看到帖子说会输入m, t, m表示一个major_part里可以有的minor_part数量，t是全部总共可以有的minor_part数量
+
+
+Round 2:
+Coding. 据说是新题：Compress url 三连.
+url比如com.stripe/user/access.someapi.endpoint。有“/”分开的属于major part，major part内部有“.”分开的属于minor part。url保证valid。minor part最少包含3个字母。
+用上面的例子：Major part 1包含minor part 1 “com”和minor part 2 “stripe”。Major part 2包含一个minor part“user”。Major part 3包含3个minor parts。
+第一问：把所有minor part压缩成第一个字母+中间字母的个数+最后一个字母，比如stripe -> s4e。
+上面的例子应该压缩成：c1m.s4e/u2r/a4s.s5i.e6t
+第二问：加一个参数m，是说每个major part最多可以保留m个minor part，如果超出m个，把第m个到最后一个minor part当做一个，不包含“.”，压缩成第一个字母+中间字母的个数+最后一个字母。比如m=2，access.someapi.endpoint压缩成a4s.s13t
+上面的例子应该压缩成：c1m.s4e/u2r/a4s.s13t。
+第三问：还是参数m，但是整个url只能保留最多m个minor part。剩下的一律压缩到最后一个minor part。
+比如m=3，上面的例子应该压缩成：c1m.s4e.u23t
+题目不难，但是desc很长，楼主在之前面经里没见过，第一次读题+理解占了一半时间，实际coding很短。最后第三问没做完。和recruiter抱怨了一下，recruiter说是新题，感谢feedback。

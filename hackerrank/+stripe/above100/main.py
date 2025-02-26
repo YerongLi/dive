@@ -26,7 +26,7 @@ def min_redistribute_funds(accounts):
     tmp = []
     ans = None
     def dfs(i):
-        nonlocal ans, tmp
+        nonlocal ans
         if ans and len(tmp) == len(ans): return
 
         p = i
