@@ -1,0 +1,3 @@
+https://leetcode.com/problems/describe-the-painting/description/
+https://leetcode.com/problems/minimum-total-space-wasted-with-k-resizing-operations/description/
+https://leetcode.com/problems/remove-all-occurrences-of-a-substring/description/
