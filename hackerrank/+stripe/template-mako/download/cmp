@@ -1,0 +1,550 @@
+2c2
+< # Copyright 2006-2025 the Mako authors and contributors <see AUTHORS file>
+---
+> # Copyright (C) 2006-2016 the Mako authors and contributors <see AUTHORS file>
+10c10,11
+< import json
+---
+> from mako.lexer import Lexer
+> from mako import runtime, util, exceptions, codegen, cache, compat
+14a16
+> import sys
+19,25d20
+< from mako import cache
+< from mako import codegen
+< from mako import compat
+< from mako import exceptions
+< from mako import runtime
+< from mako import util
+< from mako.lexer import Lexer
+26a22
+> class Template(object):
+28d23
+< class Template:
+54a50,60
+>     :param bytestring_passthrough: When ``True``, and ``output_encoding`` is
+>      set to ``None``, and :meth:`.Template.render` is used to render,
+>      the `StringIO` or `cStringIO` buffer will be used instead of the
+>      default "fast" buffer.   This allows raw bytestrings in the
+>      output stream, such as in expressions, to pass straight
+>      through to the buffer.  This flag is forced
+>      to ``True`` if ``disable_unicode`` is also configured.
+> 
+>      .. versionadded:: 0.4
+>         Added to provide the same behavior as that of the previous series.
+> 
+84a91,93
+>     :param disable_unicode: Disables all awareness of Python Unicode
+>      objects.  See :ref:`unicode_disabled`.
+> 
+122c131,135
+<      'BAR']`` results in ``from __future__ import FOO, BAR``.
+---
+>      'BAR']`` results in ``from __future__ import FOO, BAR``.  If you're
+>      interested in using features like the new division operator, you must
+>      use future_imports to convey that to the renderer, as otherwise the
+>      import will not appear as the first executed statement in the generated
+>      code and will therefore not have the desired effect.
+220,249c233,262
+<     def __init__(
+<         self,
+<         text=None,
+<         filename=None,
+<         uri=None,
+<         format_exceptions=False,
+<         error_handler=None,
+<         lookup=None,
+<         output_encoding=None,
+<         encoding_errors="strict",
+<         module_directory=None,
+<         cache_args=None,
+<         cache_impl="beaker",
+<         cache_enabled=True,
+<         cache_type=None,
+<         cache_dir=None,
+<         cache_url=None,
+<         module_filename=None,
+<         input_encoding=None,
+<         module_writer=None,
+<         default_filters=None,
+<         buffer_filters=(),
+<         strict_undefined=False,
+<         imports=None,
+<         future_imports=None,
+<         enable_loop=True,
+<         preprocessor=None,
+<         lexer_cls=None,
+<         include_error_handler=None,
+<     ):
+---
+>     def __init__(self,
+>                  text=None,
+>                  filename=None,
+>                  uri=None,
+>                  format_exceptions=False,
+>                  error_handler=None,
+>                  lookup=None,
+>                  output_encoding=None,
+>                  encoding_errors='strict',
+>                  module_directory=None,
+>                  cache_args=None,
+>                  cache_impl='beaker',
+>                  cache_enabled=True,
+>                  cache_type=None,
+>                  cache_dir=None,
+>                  cache_url=None,
+>                  module_filename=None,
+>                  input_encoding=None,
+>                  disable_unicode=False,
+>                  module_writer=None,
+>                  bytestring_passthrough=False,
+>                  default_filters=None,
+>                  buffer_filters=(),
+>                  strict_undefined=False,
+>                  imports=None,
+>                  future_imports=None,
+>                  enable_loop=True,
+>                  preprocessor=None,
+>                  lexer_cls=None,
+>                  include_error_handler=None):
+251c264
+<             self.module_id = re.sub(r"\W", "_", uri)
+---
+>             self.module_id = re.sub(r'\W', "_", uri)
+254c267
+<             self.module_id = re.sub(r"\W", "_", filename)
+---
+>             self.module_id = re.sub(r'\W', "_", filename)
+268c281
+<                 'Template uri "%s" is invalid - '
+---
+>                 "Template uri \"%s\" is invalid - "
+270,271c283
+<                 "of the root path." % self.uri
+<             )
+---
+>                 "of the root path." % self.uri)
+275a288,289
+>         self.disable_unicode = disable_unicode
+>         self.bytestring_passthrough = bytestring_passthrough or disable_unicode
+279a294,301
+>         if compat.py3k and disable_unicode:
+>             raise exceptions.UnsupportedError(
+>                 "Mako for Python 3 does not "
+>                 "support disabling Unicode")
+>         elif output_encoding and disable_unicode:
+>             raise exceptions.UnsupportedError(
+>                 "output_encoding must be set to "
+>                 "None when disable_unicode is used.")
+281c303,306
+<             self.default_filters = ["str"]
+---
+>             if compat.py3k or self.disable_unicode:
+>                 self.default_filters = ['str']
+>             else:
+>                 self.default_filters = ['unicode']
+298c323
+<             ModuleInfo(module, None, self, filename, code, text, uri)
+---
+>             ModuleInfo(module, None, self, filename, code, text)
+307c332,333
+<                         os.path.normpath(module_directory), u_norm + ".py"
+---
+>                         os.path.normpath(module_directory),
+>                         u_norm + ".py"
+315,316c341
+<                 "Template requires text or filename"
+<             )
+---
+>                 "Template requires text or filename")
+329,334c354,355
+<             cache_impl,
+<             cache_enabled,
+<             cache_args,
+<             cache_type,
+<             cache_dir,
+<             cache_url,
+---
+>             cache_impl, cache_enabled, cache_args,
+>             cache_type, cache_dir, cache_url
+342c363
+<             return codegen.RESERVED_NAMES.difference(["loop"])
+---
+>             return codegen.RESERVED_NAMES.difference(['loop'])
+344,352c365,367
+<     def _setup_cache_args(
+<         self,
+<         cache_impl,
+<         cache_enabled,
+<         cache_args,
+<         cache_type,
+<         cache_dir,
+<         cache_url,
+<     ):
+---
+>     def _setup_cache_args(self,
+>                           cache_impl, cache_enabled, cache_args,
+>                           cache_type, cache_dir, cache_url):
+355c370,374
+<         self.cache_args = cache_args or {}
+---
+>         if cache_args:
+>             self.cache_args = cache_args
+>         else:
+>             self.cache_args = {}
+> 
+358c377
+<             self.cache_args["type"] = cache_type
+---
+>             self.cache_args['type'] = cache_type
+360c379
+<             self.cache_args["dir"] = cache_dir
+---
+>             self.cache_args['dir'] = cache_dir
+362c381
+<             self.cache_args["url"] = cache_url
+---
+>             self.cache_args['url'] = cache_url
+368,371c387,388
+<             if (
+<                 not os.path.exists(path)
+<                 or os.stat(path)[stat.ST_MTIME] < filemtime
+<             ):
+---
+>             if not os.path.exists(path) or \
+>                     os.stat(path)[stat.ST_MTIME] < filemtime:
+374,375c391,395
+<                     self, data, filename, path, self.module_writer
+<                 )
+---
+>                     self,
+>                     data,
+>                     filename,
+>                     path,
+>                     self.module_writer)
+376a397
+>             del sys.modules[self.module_id]
+380,381c401,405
+<                     self, data, filename, path, self.module_writer
+<                 )
+---
+>                     self,
+>                     data,
+>                     filename,
+>                     path,
+>                     self.module_writer)
+383c407,408
+<             ModuleInfo(module, path, self, filename, None, None, None)
+---
+>                 del sys.modules[self.module_id]
+>             ModuleInfo(module, path, self, filename, None, None)
+388c413,416
+<             code, module = _compile_text(self, data, filename)
+---
+>             code, module = _compile_text(
+>                 self,
+>                 data,
+>                 filename)
+391c419
+<             ModuleInfo(module, None, self, filename, code, None, None)
+---
+>             ModuleInfo(module, None, self, filename, code, None)
+412c440
+<         return self.cache_args["dir"]
+---
+>         return self.cache_args['dir']
+416c444
+<         return self.cache_args["url"]
+---
+>         return self.cache_args['url']
+420c448
+<         return self.cache_args["type"]
+---
+>         return self.cache_args['type']
+427c455
+<         output uses `StringIO` and can't handle multibyte
+---
+>         output uses `cStringIO` and can't handle multibyte
+439,441c467,471
+<         return runtime._render(
+<             self, self.callable_, args, data, as_unicode=True
+<         )
+---
+>         return runtime._render(self,
+>                                self.callable_,
+>                                args,
+>                                data,
+>                                as_unicode=True)
+449c479
+<         if getattr(context, "_with_template", None) is None:
+---
+>         if getattr(context, '_with_template', None) is None:
+451c481,485
+<         runtime._render_context(self, self.callable_, context, *args, **kwargs)
+---
+>         runtime._render_context(self,
+>                                 self.callable_,
+>                                 context,
+>                                 *args,
+>                                 **kwargs)
+467c501
+<         return [i[7:] for i in dir(self.module) if i[:7] == "render_"]
+---
+>         return [i[7:] for i in dir(self.module) if i[:7] == 'render_']
+481c515
+<     e.g.::
+---
+>         e.g.::
+483,486c517,520
+<          t = Template("this is a template")
+<          f = file("mymodule.py", "w")
+<          f.write(t.code)
+<          f.close()
+---
+>         t = Template("this is a template")
+>         f = file("mymodule.py", "w")
+>         f.write(t.code)
+>         f.close()
+488c522
+<          import mymodule
+---
+>         import mymodule
+490,491c524,525
+<          t = ModuleTemplate(mymodule)
+<          print(t.render())
+---
+>         t = ModuleTemplate(mymodule)
+>         print t.render()
+495,516c529,550
+<     def __init__(
+<         self,
+<         module,
+<         module_filename=None,
+<         template=None,
+<         template_filename=None,
+<         module_source=None,
+<         template_source=None,
+<         output_encoding=None,
+<         encoding_errors="strict",
+<         format_exceptions=False,
+<         error_handler=None,
+<         lookup=None,
+<         cache_args=None,
+<         cache_impl="beaker",
+<         cache_enabled=True,
+<         cache_type=None,
+<         cache_dir=None,
+<         cache_url=None,
+<         include_error_handler=None,
+<     ):
+<         self.module_id = re.sub(r"\W", "_", module._template_uri)
+---
+>     def __init__(self, module,
+>                  module_filename=None,
+>                  template=None,
+>                  template_filename=None,
+>                  module_source=None,
+>                  template_source=None,
+>                  output_encoding=None,
+>                  encoding_errors='strict',
+>                  disable_unicode=False,
+>                  bytestring_passthrough=False,
+>                  format_exceptions=False,
+>                  error_handler=None,
+>                  lookup=None,
+>                  cache_args=None,
+>                  cache_impl='beaker',
+>                  cache_enabled=True,
+>                  cache_type=None,
+>                  cache_dir=None,
+>                  cache_url=None,
+>                  include_error_handler=None,
+>                  ):
+>         self.module_id = re.sub(r'\W', "_", module._template_uri)
+520a555,556
+>         self.disable_unicode = disable_unicode
+>         self.bytestring_passthrough = bytestring_passthrough or disable_unicode
+522a559,567
+>         if compat.py3k and disable_unicode:
+>             raise exceptions.UnsupportedError(
+>                 "Mako for Python 3 does not "
+>                 "support disabling Unicode")
+>         elif output_encoding and disable_unicode:
+>             raise exceptions.UnsupportedError(
+>                 "output_encoding must be set to "
+>                 "None when disable_unicode is used.")
+> 
+525,533c570,575
+<         ModuleInfo(
+<             module,
+<             module_filename,
+<             self,
+<             template_filename,
+<             module_source,
+<             template_source,
+<             module._template_uri,
+<         )
+---
+>         ModuleInfo(module,
+>                    module_filename,
+>                    self,
+>                    template_filename,
+>                    module_source,
+>                    template_source)
+541,546c583,584
+<             cache_impl,
+<             cache_enabled,
+<             cache_args,
+<             cache_type,
+<             cache_dir,
+<             cache_url,
+---
+>             cache_impl, cache_enabled, cache_args,
+>             cache_type, cache_dir, cache_url
+565a604
+>         self.bytestring_passthrough = parent.bytestring_passthrough
+571c610
+< class ModuleInfo:
+---
+> class ModuleInfo(object):
+577,578c616
+<     """
+< 
+---
+>      """
+581,590c619,625
+<     def __init__(
+<         self,
+<         module,
+<         module_filename,
+<         template,
+<         template_filename,
+<         module_source,
+<         template_source,
+<         template_uri,
+<     ):
+---
+>     def __init__(self,
+>                  module,
+>                  module_filename,
+>                  template,
+>                  template_filename,
+>                  module_source,
+>                  template_source):
+596d630
+<         self.template_uri = template_uri
+604,609c638,643
+<             r"__M_BEGIN_METADATA(.+?)__M_END_METADATA", module_source, re.S
+<         ).group(1)
+<         source_map = json.loads(source_map)
+<         source_map["line_map"] = {
+<             int(k): int(v) for k, v in source_map["line_map"].items()
+<         }
+---
+>             r"__M_BEGIN_METADATA(.+?)__M_END_METADATA",
+>             module_source, re.S).group(1)
+>         source_map = compat.json.loads(source_map)
+>         source_map['line_map'] = dict(
+>             (int(k), int(v))
+>             for k, v in source_map['line_map'].items())
+611,612c645,646
+<             f_line_map = source_map["full_line_map"] = []
+<             line_map = source_map["line_map"]
+---
+>             f_line_map = source_map['full_line_map'] = []
+>             line_map = source_map['line_map']
+630c664,671
+<         if self.template_source is None:
+---
+>         if self.template_source is not None:
+>             if self.module._source_encoding and \
+>                     not isinstance(self.template_source, compat.text_type):
+>                 return self.template_source.decode(
+>                     self.module._source_encoding)
+>             else:
+>                 return self.template_source
+>         else:
+637,643d677
+<         elif self.module._source_encoding and not isinstance(
+<             self.template_source, str
+<         ):
+<             return self.template_source.decode(self.module._source_encoding)
+<         else:
+<             return self.template_source
+< 
+646,651c680,684
+<     lexer = template.lexer_cls(
+<         text,
+<         filename,
+<         input_encoding=template.input_encoding,
+<         preprocessor=template.preprocessor,
+<     )
+---
+>     lexer = template.lexer_cls(text,
+>                                filename,
+>                                disable_unicode=template.disable_unicode,
+>                                input_encoding=template.input_encoding,
+>                                preprocessor=template.preprocessor)
+653,666c686,698
+<     source = codegen.compile(
+<         node,
+<         template.uri,
+<         filename,
+<         default_filters=template.default_filters,
+<         buffer_filters=template.buffer_filters,
+<         imports=template.imports,
+<         future_imports=template.future_imports,
+<         source_encoding=lexer.encoding,
+<         generate_magic_comment=generate_magic_comment,
+<         strict_undefined=template.strict_undefined,
+<         enable_loop=template.enable_loop,
+<         reserved_names=template.reserved_names,
+<     )
+---
+>     source = codegen.compile(node,
+>                              template.uri,
+>                              filename,
+>                              default_filters=template.default_filters,
+>                              buffer_filters=template.buffer_filters,
+>                              imports=template.imports,
+>                              future_imports=template.future_imports,
+>                              source_encoding=lexer.encoding,
+>                              generate_magic_comment=generate_magic_comment,
+>                              disable_unicode=template.disable_unicode,
+>                              strict_undefined=template.strict_undefined,
+>                              enable_loop=template.enable_loop,
+>                              reserved_names=template.reserved_names)
+672,674c704,705
+<     source, lexer = _compile(
+<         template, text, filename, generate_magic_comment=False
+<     )
+---
+>     source, lexer = _compile(template, text, filename,
+>                              generate_magic_comment=template.disable_unicode)
+676a708,709
+>     if not compat.py3k and isinstance(cid, compat.text_type):
+>         cid = cid.encode()
+678c711
+<     code = compile(source, cid, "exec")
+---
+>     code = compile(source, cid, 'exec')
+686,688c719,720
+<     source, lexer = _compile(
+<         template, text, filename, generate_magic_comment=True
+<     )
+---
+>     source, lexer = _compile(template, text, filename,
+>                              generate_magic_comment=True)
+690,691c722,723
+<     if isinstance(source, str):
+<         source = source.encode(lexer.encoding or "ascii")
+---
+>     if isinstance(source, compat.text_type):
+>         source = source.encode(lexer.encoding or 'ascii')
+707c739,742
+<     return _get_module_info(callable_.__globals__["__name__"])
+---
+>     if compat.py3k:
+>         return _get_module_info(callable_.__globals__['__name__'])
+>     else:
+>         return _get_module_info(callable_.func_globals['__name__'])

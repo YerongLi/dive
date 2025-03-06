@@ -36,8 +36,8 @@ def shutdown_system():
 def get_random_questions():
     with open(json_data_file, 'r') as f:
         data = json.load(f)
-    
-    questions = [item for item in data if 1900 <= item['Rating'] <= 2100]
+    c = 1900
+    questions = [item for item in data if c-100 <= item['Rating'] <= c+100]
     random_questions = random.sample(questions, 3)
     
     # Append the question links to random.txt
