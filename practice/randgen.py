@@ -122,4 +122,6 @@ if __name__ == '__main__':
     save_start_time()
     threading.Thread(target=shutdown_system).start()
     webbrowser.open('http://127.0.0.1:5000')
+    os.system('git add -u')
+    os.system('git push origin master')
     app.run(debug=True)

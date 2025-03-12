@@ -1,5 +1,9 @@
-https://leetcode.com/problems/odd-even-jump/
 https://leetcode.com/problems/reaching-points
-https://leetcode.com/problems/valid-palindrome-iii
-https://leetcode.com/problems/shortest-path-with-alternating-colors
 https://leetcode.com/problems/flip-binary-tree-to-match-preorder-traversal
+https://leetcode.com/problems/bag-of-tokens
+https://leetcode.com/problems/maximum-earnings-from-taxi
+https://leetcode.com/problems/total-characters-in-string-after-transformations-i
+https://leetcode.com/problems/min-cost-to-connect-all-points
+https://leetcode.com/problems/maximize-total-cost-of-alternating-subarrays
+https://leetcode.com/problems/find-xor-sum-of-all-pairs-bitwise-and
+https://leetcode.com/problems/walking-robot-simulation
