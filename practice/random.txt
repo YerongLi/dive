@@ -7,3 +7,12 @@ https://leetcode.com/problems/min-cost-to-connect-all-points
 https://leetcode.com/problems/maximize-total-cost-of-alternating-subarrays
 https://leetcode.com/problems/find-xor-sum-of-all-pairs-bitwise-and
 https://leetcode.com/problems/walking-robot-simulation
+https://leetcode.com/problems/design-a-text-editor
+https://leetcode.com/problems/largest-merge-of-two-strings
+https://leetcode.com/problems/count-submatrices-with-all-ones
+https://leetcode.com/problems/maximum-subarray-sum-with-length-divisible-by-k
+https://leetcode.com/problems/maximum-candies-you-can-get-from-boxes
+https://leetcode.com/problems/minimum-array-end
+https://leetcode.com/problems/minimum-time-to-visit-disappearing-nodes
+https://leetcode.com/problems/fair-distribution-of-cookies
+https://leetcode.com/problems/number-of-squareful-arrays
