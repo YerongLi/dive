@@ -1,0 +1,8 @@
+over fitting
+Gradient Exploding （6 + 9）
+auc
+排序召回
+infer时如何减少dropout的开销
+RAG三个缺点和解决方案
+
+

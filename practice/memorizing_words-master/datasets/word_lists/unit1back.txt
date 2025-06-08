@@ -1,0 +1,3 @@
+over fitting, 1
+Gradient Exploding, 1
+
