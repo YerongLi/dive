@@ -31,5 +31,3 @@ https://leetcode.com/problems/length-of-longest-fibonacci-subsequence
 https://leetcode.com/problems/insufficient-nodes-in-root-to-leaf-paths
 https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid
 https://leetcode.com/problems/minimum-seconds-to-equalize-a-circular-array
-https://leetcode.com/problems/count-substrings-that-can-be-rearranged-to-contain-a-string-i
-https://leetcode.com/problems/find-the-longest-valid-obstacle-course-at-each-position
