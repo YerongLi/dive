@@ -1,7 +1,9 @@
 over fitting ::: ml
-Gradient Exploding ::: ml
+Gradient Exploding （6 + 9） ::: ml
 auc ::: ml
 排序召回 ::: ml
 infer时如何减少dropout的开销 ::: ml
+RAG三个缺点和解决方案 ::: ml
+l1和l2正则化的区别?为什么l1可以起到稀疏特征筛选的作用？ ::: ml
  ::: ml
 三次握手 ::: backend
