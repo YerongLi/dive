@@ -5,5 +5,6 @@ auc ::: ml
 infer时如何减少dropout的开销 ::: ml
 RAG三个缺点和解决方案 ::: ml
 l1和l2正则化的区别?为什么l1可以起到稀疏特征筛选的作用？ ::: ml
- ::: ml
+多头注意力 ::: ml
+L1为什么可以feature selection?L1 L2有什么区别 ::: ml
 三次握手 ::: backend

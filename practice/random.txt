@@ -12,7 +12,6 @@ https://leetcode.com/problems/largest-merge-of-two-strings
 https://leetcode.com/problems/maximum-candies-you-can-get-from-boxes
 https://leetcode.com/problems/fair-distribution-of-cookies
 https://leetcode.com/problems/number-of-squareful-arrays
-https://leetcode.com/problems/number-of-nodes-in-the-sub-tree-with-the-same-label
 https://leetcode.com/problems/find-in-mountain-array
 https://leetcode.com/problems/throne-inheritance
 https://leetcode.com/problems/reaching-points
@@ -31,3 +30,9 @@ https://leetcode.com/problems/length-of-longest-fibonacci-subsequence
 https://leetcode.com/problems/insufficient-nodes-in-root-to-leaf-paths
 https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid
 https://leetcode.com/problems/minimum-seconds-to-equalize-a-circular-array
+https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
+https://leetcode.com/problems/shifting-letters-ii
+https://leetcode.com/problems/distinct-echo-substrings
+https://leetcode.com/problems/design-task-manager
+https://leetcode.com/problems/split-array-into-fibonacci-sequence
+https://leetcode.com/problems/coordinate-with-maximum-network-quality
