@@ -29,7 +29,6 @@ https://leetcode.com/problems/maximum-candies-you-can-get-from-boxes
 https://leetcode.com/problems/length-of-longest-fibonacci-subsequence
 https://leetcode.com/problems/insufficient-nodes-in-root-to-leaf-paths
 https://leetcode.com/problems/minimum-swaps-to-arrange-a-binary-grid
-https://leetcode.com/problems/longest-unequal-adjacent-groups-subsequence-ii
 https://leetcode.com/problems/shifting-letters-ii
 https://leetcode.com/problems/distinct-echo-substrings
 https://leetcode.com/problems/design-task-manager
