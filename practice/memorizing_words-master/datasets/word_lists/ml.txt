@@ -9,3 +9,4 @@ l1和l2正则化的区别?为什么l1可以起到稀疏特征筛选的作用？
 L1为什么可以feature selection?L1 L2有什么区别
 深度网络loss除以10和学习率除以10是不是等价的？
 Policy 和 Value Based有什么区别
+XGboost: feature importance && 优化

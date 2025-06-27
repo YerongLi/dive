@@ -36,3 +36,12 @@ https://leetcode.com/problems/split-array-into-fibonacci-sequence
 https://leetcode.com/problems/coordinate-with-maximum-network-quality
 https://leetcode.com/problems/knight-dialer
 https://leetcode.com/problems/detect-squares
+https://leetcode.com/problems/find-the-maximum-length-of-valid-subsequence-i
+https://leetcode.com/problems/grid-game
+https://leetcode.com/problems/split-array-into-fibonacci-sequence
+https://leetcode.com/problems/distant-barcodes
+https://leetcode.com/problems/friends-of-appropriate-ages
+https://leetcode.com/problems/remove-methods-from-project
+https://leetcode.com/problems/all-ancestors-of-a-node-in-a-directed-acyclic-graph
+https://leetcode.com/problems/number-of-corner-rectangles
+https://leetcode.com/problems/making-file-names-unique
