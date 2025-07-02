@@ -8,7 +8,7 @@ import webbrowser
 
 app = Flask(__name__)
 start_time_file = 'start_time.json'
-countdown_duration = 30 * 60  # 30 minutes in seconds
+countdown_duration = 60 * 60  # 30 minutes in seconds
 json_data_file = 'data.json'  # Path to your data.json file
 
 # Global variable to store the generated questions

@@ -6,7 +6,7 @@ import json
 import webbrowser
 app = Flask(__name__)
 start_time_file = 'start_time.json'
-countdown_duration = 30 * 60  # 30 minutes in seconds
+countdown_duration = 60 * 60  # 30 minutes in seconds
 
 def save_start_time():
     with open(start_time_file, 'w') as f:
