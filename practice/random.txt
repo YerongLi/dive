@@ -48,4 +48,6 @@ https://leetcode.com/problems/making-file-names-unique
 https://leetcode.com/problems/frog-position-after-t-seconds
 https://leetcode.com/problems/extra-characters-in-a-string
 https://leetcode.com/problems/swap-for-longest-repeated-character-substring
-https://leetcode.com/problems/maximum-good-subarray-sum
+https://leetcode.com/problems/find-the-number-of-ways-to-place-people-i
+https://leetcode.com/problems/most-frequent-ids
+https://leetcode.com/problems/online-stock-span
