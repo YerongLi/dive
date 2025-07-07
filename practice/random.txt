@@ -50,3 +50,4 @@ https://leetcode.com/problems/find-the-number-of-ways-to-place-people-i
 https://leetcode.com/problems/most-frequent-ids
 https://leetcode.com/problems/find-palindrome-with-fixed-length
 https://leetcode.com/problems/total-characters-in-string-after-transformations-i
+https://leetcode.com/problems/largest-plus-sign
