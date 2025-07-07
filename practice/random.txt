@@ -46,8 +46,7 @@ https://leetcode.com/problems/all-ancestors-of-a-node-in-a-directed-acyclic-grap
 https://leetcode.com/problems/number-of-corner-rectangles
 https://leetcode.com/problems/making-file-names-unique
 https://leetcode.com/problems/frog-position-after-t-seconds
-https://leetcode.com/problems/extra-characters-in-a-string
-https://leetcode.com/problems/swap-for-longest-repeated-character-substring
 https://leetcode.com/problems/find-the-number-of-ways-to-place-people-i
 https://leetcode.com/problems/most-frequent-ids
-https://leetcode.com/problems/online-stock-span
+https://leetcode.com/problems/find-palindrome-with-fixed-length
+https://leetcode.com/problems/total-characters-in-string-after-transformations-i
