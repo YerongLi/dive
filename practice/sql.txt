@@ -1,0 +1,74 @@
+| 题号   | 题目                                                       | 难度     | 官方链接                                                                                     |
+| ---- | -------------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------- |
+| 1225 | Report Contiguous Dates                                  | Hard   | <https://leetcode.com/problems/report-contiguous-dates>                                  |
+| 608  | Tree Node                                                | Medium | <https://leetcode.com/problems/tree-node>                                                |
+| 607  | Sales Person                                             | Easy   | <https://leetcode.com/problems/sales-person>                                             |
+| 1142 | User Activity for the Past 30 Days II                    | Easy   | <https://leetcode.com/problems/user-activity-for-the-past-30-days-ii>                    |
+| 1141 | User Activity for the Past 30 Days I                     | Easy   | <https://leetcode.com/problems/user-activity-for-the-past-30-days-i>                     |
+| 603  | Consecutive Available Seats                              | Easy   | <https://leetcode.com/problems/consecutive-available-seats>                              |
+| 602  | Friend Requests II: Who Has the Most Friends             | Medium | <https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends>              |
+| 1132 | Reported Posts II                                        | Medium | <https://leetcode.com/problems/reported-posts-ii>                                        |
+| 597  | Friend Requests I: Overall Acceptance Rate               | Easy   | <https://leetcode.com/problems/friend-requests-i-overall-acceptance-rate>                |
+| 1241 | Number of Comments per Post                              | Easy   | <https://leetcode.com/problems/number-of-comments-per-post>                              |
+| 1127 | User Purchase Platform                                   | Hard   | <https://leetcode.com/problems/user-purchase-platform>                                   |
+| 1126 | Active Businesses                                        | Medium | <https://leetcode.com/problems/active-businesses>                                        |
+| 586  | Customer Placing the Largest Number of Orders            | Easy   | <https://leetcode.com/problems/customer-placing-the-largest-number-of-orders>            |
+| 585  | Investments in 2016                                      | Medium | <https://leetcode.com/problems/investments-in-2016>                                      |
+| 584  | Find Customer Referee                                    | Easy   | <https://leetcode.com/problems/find-customer-referee>                                    |
+| 580  | Count Student Number in Departments                      | Medium | <https://leetcode.com/problems/count-student-number-in-departments>                      |
+| 579  | Find Cumulative Salary of an Employee                    | Hard   | <https://leetcode.com/problems/find-cumulative-salary-of-an-employee>                    |
+| 578  | Get Highest Answer Rate Question                         | Medium | <https://leetcode.com/problems/get-highest-answer-rate-question>                         |
+| 1149 | Article Views II                                         | Medium | <https://leetcode.com/problems/article-views-ii>                                         |
+| 1164 | Product Price at a Given Date                            | Medium | <https://leetcode.com/problems/product-price-at-a-given-date>                            |
+| 1270 | All People Report to the Given Manager                   | Medium | <https://leetcode.com/problems/all-people-report-to-the-given-manager>                   |
+| 1264 | Page Recommendations                                     | Medium | <https://leetcode.com/problems/page-recommendations>                                     |
+| 1159 | Market Analysis II                                       | Hard   | <https://leetcode.com/problems/market-analysis-ii>                                       |
+| 1158 | Market Analysis I                                        | Medium | <https://leetcode.com/problems/market-analysis-i>                                        |
+| 1050 | Actors and Directors Who Cooperated At Least Three Times | Easy   | <https://leetcode.com/problems/actors-and-directors-who-cooperated-at-least-three-times> |
+| 1045 | Customers Who Bought All Products                        | Medium | <https://leetcode.com/problems/customers-who-bought-all-products>                        |
+| 1251 | Average Selling Price                                    | Easy   | <https://leetcode.com/problems/average-selling-price>                                    |
+| 577  | Employee Bonus                                           | Easy   | <https://leetcode.com/problems/employee-bonus>                                           |
+| 1148 | Article Views I                                          | Easy   | <https://leetcode.com/problems/article-views-i>                                          |
+| 619  | Biggest Single Number                                    | Easy   | <https://leetcode.com/problems/biggest-single-number>                                    |
+| 618  | Students Report By Geography                             | Hard   | <https://leetcode.com/problems/students-report-by-geography>                             |
+| 615  | Average Salary: Departments VS Company                   | Hard   | <https://leetcode.com/problems/average-salary-departments-vs-company>                    |
+| 614  | Second Degree Follower                                   | Medium | <https://leetcode.com/problems/second-degree-follower>                                   |
+| 613  | Shortest Distance in a Line                              | Easy   | <https://leetcode.com/problems/shortest-distance-in-a-line>                              |
+| 612  | Shortest Distance in a Plane                             | Medium | <https://leetcode.com/problems/shortest-distance-in-a-plane>                             |
+| 610  | Triangle Judgement                                       | Easy   | <https://leetcode.com/problems/triangle-judgement>                                       |
+| 1285 | Find the Start and End Number of Continuous Ranges       | Medium | <https://leetcode.com/problems/find-the-start-and-end-number-of-continuous-ranges>       |
+| 550  | Game Play Analysis IV                                    | Medium | <https://leetcode.com/problems/game-play-analysis-iv>                                    |
+| 534  | Game Play Analysis III                                   | Medium | <https://leetcode.com/problems/game-play-analysis-iii>                                   |
+| 512  | Game Play Analysis II                                    | Easy   | <https://leetcode.com/problems/game-play-analysis-ii>                                    |
+| 511  | Game Play Analysis I                                     | Easy   | <https://leetcode.com/problems/game-play-analysis-i>                                     |
+| 1084 | Sales Analysis III                                       | Easy   | <https://leetcode.com/problems/sales-analysis-iii>                                       |
+| 1083 | Sales Analysis II                                        | Easy   | <https://leetcode.com/problems/sales-analysis-ii>                                        |
+| 1082 | Sales Analysis I                                         | Easy   | <https://leetcode.com/problems/sales-analysis-i>                                         |
+| 1294 | Weather Type in Each Country                             | Easy   | <https://leetcode.com/problems/weather-type-in-each-country>                             |
+| 1303 | Find the Team Size                                       | Easy   | <https://leetcode.com/problems/find-the-team-size>                                       |
+| 1174 | Immediate Food Delivery II                               | Medium | <https://leetcode.com/problems/immediate-food-delivery-ii>                               |
+| 1173 | Immediate Food Delivery I                                | Easy   | <https://leetcode.com/problems/immediate-food-delivery-i>                                |
+| 1077 | Project Employees III                                    | Medium | <https://leetcode.com/problems/project-employees-iii>                                    |
+| 1076 | Project Employees II                                     | Easy   | <https://leetcode.com/problems/project-employees-ii>                                     |
+| 1075 | Project Employees I                                      | Easy   | <https://leetcode.com/problems/project-employees-i>                                      |
+| 1280 | Students and Examinations                                | Easy   | <https://leetcode.com/problems/students-and-examinations>                                |
+| 1070 | Product Sales Analysis III                               | Medium | <https://leetcode.com/problems/product-sales-analysis-iii>                               |
+| 1069 | Product Sales Analysis II                                | Easy   | <https://leetcode.com/problems/product-sales-analysis-ii>                                |
+| 1107 | New Users Daily Count                                    | Medium | <https://leetcode.com/problems/new-users-daily-count>                                    |
+| 1113 | Reported Posts                                           | Easy   | <https://leetcode.com/problems/reported-posts>                                           |
+| 1112 | Highest Grade For Each Student                           | Medium | <https://leetcode.com/problems/highest-grade-for-each-student>                           |
+| 574  | Winning Candidate                                        | Medium | <https://leetcode.com/problems/winning-candidate>                                        |
+| 1212 | Team Scores in Football Tournament                       | Medium | <https://leetcode.com/problems/team-scores-in-football-tournament>                       |
+| 1211 | Queries Quality and Percentage                           | Easy   | <https://leetcode.com/problems/queries-quality-and-percentage>                           |
+| 571  | Find Median Given Frequency of Numbers                   | Hard   | <https://leetcode.com/problems/find-median-given-frequency-of-numbers>                   |
+| 570  | Managers with at Least 5 Direct Reports                  | Medium | <https://leetcode.com/problems/managers-with-at-least-5-direct-reports>                  |
+| 569  | Median Employee Salary                                   | Hard   | <https://leetcode.com/problems/median-employee-salary>                                   |
+| 1068 | Product Sales Analysis I                                 | Easy   | <https://leetcode.com/problems/product-sales-analysis-i>                                 |
+| 1205 | Monthly Transactions II                                  | Medium | <https://leetcode.com/problems/monthly-transactions-ii>                                  |
+| 1204 | Last Person to Fit in the Bus                            | Medium | <https://leetcode.com/problems/last-person-to-fit-in-the-bus>                            |
+| 1098 | Unpopular Books                                          | Medium | <https://leetcode.com/problems/unpopular-books>                                          |
+| 1321 | Restaurant Growth                                        | Medium | <https://leetcode.com/problems/restaurant-growth>                                        |
+| 1097 | Game Play Analysis V                                     | Hard   | <https://leetcode.com/problems/game-play-analysis-v>                                     |
+| 1194 | Tournament Winners                                       | Hard   | <https://leetcode.com/problems/tournament-winners>                                       |
+| 1193 | Monthly Transactions I                                   | Medium | <https://leetcode.com/problems/monthly-transactions-i>                                   |
+| 1308 | Running Total for Different Genders                      | Medium | <https://leetcode.com/problems/running-total-for-different-genders>                      |
